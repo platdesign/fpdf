@@ -1,6 +1,18 @@
 .row.row-res
 	.col.w-1-2
-		iframe.a4(data-ng-src="{{test}}")
+		h1 Try it!
+		form(ng-submit="examplePDF.render()")
+			.row
+				.col.w-1-1
+					label Title
+					input.w-1-1(type="text", ng-model="examplePDF.title")
+			.row
+				.col.w-1-1
+					label Content
+					textarea.w-1-1(msd-elastic, ng-model="examplePDF.content")
+			.row
+				.col.w-1-1
+					button.btn.btn-createPDF.w-1-1(ng-click="examplePDF.render()") Create PDF
+
 	.col.w-1-2
-		h1 Hello World
-			
+		iframe.a4(ng-if="examplePDF.src", ng-src="{{examplePDF.src}}")

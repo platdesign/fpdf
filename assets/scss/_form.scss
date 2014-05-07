@@ -1,0 +1,49 @@
+label {
+	display: block;
+	font-size: .8em;
+	opacity: .4;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="search"],
+textarea {
+	border: 1px solid #bbb;
+	padding: .3em .4em .2em .4em;
+	border-radius: 3px;
+	color: #555;
+	margin-bottom: 1em;
+	&:focus {
+		color: #333;
+	}
+}
+input[type="search"] {
+	border-radius: 1em;
+	padding: .2em .4em .2em .4em;
+	opacity: .8;
+	font-size: .9em;
+	&:focus {
+		opacity: 1;
+		outline: none;
+	}
+}
+textarea {
+	resize:none;
+}
+
+
+
+
+
+.btn {
+	background: #fff;
+	border-radius: 2px;
+	border:none;
+	padding: .3em .4em .2em .4em;
+	&[disabled] {
+		opacity:.3!important;
+		user-select:none;
+		pointer-events:none;
+	}
+
+}

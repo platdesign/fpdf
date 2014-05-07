@@ -24,6 +24,7 @@
     "angular-ui-router": "~0.2.10",
     "fpdf": "*",
     "jspdf": "~1.0.119",
-    "stdClass": "*"
+    "stdClass": "*",
+    "angular-elastic": "~2.3.2"
   }
 }
