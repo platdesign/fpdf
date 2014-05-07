@@ -15,6 +15,8 @@ var
 
 	,	gulpif 		= require('gulp-if')
 	,	sprite 		= require('css-sprite').stream
+
+	,	jade 		= require('gulp-jade')
 ;
 
 
@@ -92,6 +94,10 @@ gulp.task('js-dev', function(){
 	.pipe(jshint())
 	.pipe(jshint.reporter(stylish));
 
+	gulp.src('partials/jade/**/*.jade')
+	.pipe( watch() )
+	.pipe(jade())
+	.pipe( gulp.dest('partials/html') );
 });
 
 

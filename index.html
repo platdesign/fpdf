@@ -20,10 +20,12 @@
 				<h2>Create PDF-Files in the Browser</h2>
 			</div>
 		</header>
-		<section>
-			<div class="page">
+		<section ng-controller="appCtrl">
+			<div class="page" ui-view="">
 				
-				
+				<div class="loader">
+					<i class="fa fa-spinner fa-spin"></i>
+				</div>
 				
 			</div>
 		</section>
@@ -70,6 +72,8 @@
 	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
 	<script>
-		require(['./assets/js/modules/common']);
+		require(['./assets/js/modules/common'], function(){
+			require(['./assets/js/modules/app']);
+		});
 	</script>
 </html>

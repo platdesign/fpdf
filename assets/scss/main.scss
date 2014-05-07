@@ -49,9 +49,9 @@ header {
 	box-shadow: inset 0 -10px 55px -5px rgba(black, .4);
 	h1 {
 		font-weight: 800;
-		font-size: 5em;
+		font-size: 6em;
 		text-shadow: 0 0 80px rgba(white, .4), 0 0 5px rgba(black, .8);
-		margin-bottom: .3em;
+		margin-bottom: .1em;
 		color: mix($navy, #fff, 25%);
 	}
 
@@ -75,4 +75,44 @@ footer {
 	h1 {
 		font-weight: 300;
 	}
+}
+
+
+
+
+section {
+	background: #fff;
+	padding: 2.5em 0;
+	.loader {
+		margin: 0 auto;
+		background: rgba(black, .4);
+		width: 200px;
+		padding: 1em;
+		text-align: center;
+		font-size: 1.5em;
+		border-radius: 3px;
+		color: #fff;
+		.fa {
+			font-size: 3em;
+		}
+	}
+}
+
+
+
+
+iframe {
+	width:100%;
+	background: #aaaaaa;
+	border:1px solid #999;
+}
+
+.a4 {
+	
+	margin:0 auto;
+	display: block;
+	
+	width: 90%;
+	min-height: 300px;
+
 }
