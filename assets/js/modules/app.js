@@ -1,0 +1,1 @@
+define("assets/js/modules/app",[],function(){});
