@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Demo</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="description" content="Demo project">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+		<script type="text/javascript" src="../vendor/stdClass/stdClass.js"></script>
+		<script type="text/javascript" src="../vendor/jspdf/dist/jspdf.min.js"></script>
+		<script src="../fpdf.js"></script>
+		<style>
+
+			
+		</style>
+	</head>
+	<body>
+		
+		<iframe id="test" width="100%" height="880px"></iframe>
+
+	</body>
+	<script type="text/javascript">
+		
+
+		var iframe = document.getElementById('test');
+
+		var doc = new FPDF.Doc();
+
+		doc.page().css({
+			padding:20
+		});
+
+		FPDF.Div()
+			.appendTo(doc.page())
+			.text('Hello World')
+			.css({
+				fontSize:20,
+				textAlign:'center'
+			});
+
+		iframe.src = doc.toDataUri();
+		
+
+
+		
+
+		
+	</script>
+</html>

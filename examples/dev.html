@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Demo</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="description" content="Demo project">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+		<script type="text/javascript" src="vendor/stdClass/stdClass.js"></script>
+		<script type="text/javascript" src="vendor/jspdf/dist/jspdf.min.js"></script>
+		<script type="text/javascript" src="vendor/jquery/dist/jquery.min.js"></script>
+		<script src="fpdf.js"></script>
+		<style>
+
+			
+		</style>
+	</head>
+	<body>
+		
+	<iframe id="test" width="100%" height="880px"></iframe>
+
+
+
+
+	</body>
+	<script type="text/javascript">
+		
+
+		var iframe = document.getElementById('test');
+
+
+		currency = function(n) {
+			return n.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+		};
+
+
+
+		
+
+		var lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+		var Letter = FPDF.Doc.extend();
+
+
+
+		var doc = new Letter();
+
+
+		doc.page().css({
+			padding:5
+		});
+
+
+		var Flexbox = FPDF.Flexbox()
+			.appendTo(doc.page())
+			.css({
+				fontSize:8,
+				lineHeight:1.3,
+				color:'ffffff',
+				padding:3,
+				background:'eaeaea',
+				margin:[0,0,10,0]
+			})
+			.append(
+				FPDF.Div().css({
+					background:'aa0000',
+					padding:5,
+					margin:2
+				}).text(lorem)
+			)
+			
+			.append(
+				FPDF.Div().css({
+					background:'00aa00',
+					padding:5
+				}).text(lorem)
+			)
+			
+			.prepend(
+				FPDF.Div().css({
+					background:'0000aa',
+					width:60,
+					height:100,
+					padding:5,
+				}).text(lorem)
+			)
+			
+			
+			
+		;
+
+		
+
+
+		FPDF.Div()
+		.appendTo(doc.page())
+		.css({
+			background:'a0a0a0',
+			margin:0,
+			padding:10
+		}).text(lorem);
+
+		
+		doc.addPage();
+		
+
+
+
+		var dina = FPDF.Div().appendTo(doc.page());
+
+		
+
+		dina.css({
+			background:'aa00aa',
+			//height:70,
+			//margin:0,
+			padding:5,
+			//width:150
+		})
+
+		FPDF.Div().appendTo(dina).css({
+			background:'aa0000',
+			//height:50,
+			//margin:1,
+			padding:5,
+			lineHeight:1.5,
+			fontSize:11,
+			color:'ffffff',
+			//borderWidth:.1
+		}).text(lorem);
+
+		FPDF.Div().appendTo(dina).css({
+			background:'eaeaea',
+			//height:20,
+			//margin:5,
+			fontSize:10,
+			textAlign:"center",
+			padding:5,
+			//borderWidth:.1,
+			borderColor:'444444'
+		}).text(lorem)
+		.append(
+			FPDF.Div().css({
+				background:'aaa000',
+				//width:80,
+				padding:5,
+				margin:[15, 20, 5, 20],
+				fontSize:11,
+				//borderWidth:.1,
+				color:'aa0000',
+				textAlign:"right",
+				fontFamily:'courier',
+				lineHeight:2
+			}).text(lorem)
+		)
+
+		;
+
+
+
+
+		doc.addPage();
+
+		doc.page().css({
+			padding:[10,0,0,50]
+		});
+
+		var box = FPDF.Div()
+		.css({
+			borderColor:'aa0000',
+			background:'eaeaea',
+			//height:50,
+			margin:20,
+			padding:15
+		})
+		.appendTo(doc.page());
+
+		var box2 = FPDF.Div();
+		box2.css({
+			borderColor:'00aa00',
+			background:'aa00aa',
+			height:25,
+			width:50
+		});
+
+		
+		box.append( box2 );
+		
+		var box3 = FPDF.Div();
+		box3.css({
+			borderColor:'aa0000',
+			background:'aa0000',
+			height:10,
+			margin:[10,0,0,0]
+		}).appendTo(box);
+
+
+		doc.render();
+		iframe.src = doc.toDataUri("datauristring");
+		
+
+
+		
+
+		
+	</script>
+</html>

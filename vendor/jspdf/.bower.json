@@ -1,0 +1,38 @@
+{
+  "name": "jspdf",
+  "version": "1.0.119",
+  "homepage": "https://github.com/mrrio/jspdf",
+  "description": "PDF Document creation from JavaScript",
+  "main": "dist/jspdf.min.js",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "pdf"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "libs",
+    "CNAME",
+    "jspdf.js",
+    "jspdf.PLUGINTEMPLATE.js",
+    "jspdf.plugin.*",
+    "todo.txt",
+    "wscript.py",
+    "build.sh",
+    "test",
+    "tools"
+  ],
+  "_release": "1.0.119",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.119",
+    "commit": "6739c1ff3a765f6b0ee40b2974a7aa3ae5d2adc6"
+  },
+  "_source": "git://github.com/MrRio/jsPDF.git",
+  "_target": "~1.0.119",
+  "_originalSource": "jspdf",
+  "_direct": true
+}

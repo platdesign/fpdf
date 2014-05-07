@@ -1,0 +1,21 @@
+{
+  "name": "stdClass",
+  "main": "stdClass.js",
+  "version": "0.0.1",
+  "authors": [
+    "Christian Blaschke <mail@platdesign.de>"
+  ],
+  "description": "A base class for JavaScript",
+  "keywords": [
+    "js"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ]
+}
