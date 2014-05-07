@@ -25,6 +25,13 @@ var Doc = stdClass.extend({
 		this.addPage(true);
 
 		this.initialize.apply(this, arguments);	
+
+		this.__defineGetter__("page", function(){
+        	return this._page();
+    	});
+    	
+		
+
 	},
 	initialize:function(){},
 	Page:Page,
@@ -48,7 +55,7 @@ var Doc = stdClass.extend({
 		
 	},
 
-	page:function(index) {
+	_page:function(index) {
 		if(index){
 			if(this.pages[index-1]) {
 				return this.pages[index-1];
@@ -58,9 +65,9 @@ var Doc = stdClass.extend({
 		}
 		
 	},
-	
-
-
+	getPageByIndex:function(index){
+		return this._page(index);
+	},
 	setX:function(x) {
 		if(x < 0) {
 			this.c.x = this.width() + x;
@@ -222,6 +229,7 @@ var Doc = stdClass.extend({
 		this._activePage = new this.Page(this);
 		this.pages.push(this._activePage);
 		this._activePage.css(this.styles);
+		this._activePage.__loadDefaultCss();
 		this._activePage.initialize();
 		this._activePage.initializeHeaderAndFooter();
 		this._activePage.index = this.pages.length;

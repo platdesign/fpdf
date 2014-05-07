@@ -1,4 +1,4 @@
-var FlexRow = Div.extend({
+var Flexrow = Div.extend({
 	
 	width:function(){
 		var width=0;

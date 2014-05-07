@@ -23,7 +23,7 @@ var Div = BaseEl.extend({
 
 	text:function(text){
 		if(!this._text) {
-			this._text = FPDF.Text().appendTo(this).inner(text);
+			this._text = FPDF.el('text').appendTo(this).inner(text);
 		} else {
 			this._text.inner(text);
 		}

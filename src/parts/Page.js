@@ -5,13 +5,13 @@ var Page = BaseEl.extend({
 		this.children = new Children(this);
 		this.setParent(this);
 		this.doc = doc;
-		
+		this.__loadDefaultCss();
 	},
 	initialize:function(){},
 
 	initializeHeaderAndFooter:function(){
-		this._header = FPDF.Div({top:0,left:0}).appendTo(this);
-		this._footer = FPDF.Div({top:0,left:0}).appendTo(this);
+		this._header = FPDF.el('div').appendTo(this);
+		this._footer = FPDF.el('div').appendTo(this);
 
 		this._header.afterRender = this._footer.afterRender = function(){
 			this.parent.c.y = 0;

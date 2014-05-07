@@ -13,18 +13,18 @@ var Flexbox = Div.extend({
 			return this.children.heighest();
 		}
 	},
-	_transFormElToFlexRow:function(el){
-		el.width = FlexRow.prototype.width;
-		el.afterRender = FlexRow.prototype.afterRender;
+	_transFormElToFlexrow:function(el){
+		el.width = Flexrow.prototype.width;
+		el.afterRender = Flexrow.prototype.afterRender;
 		el.styles.margin = 0;
 	},
 	append:function(el) {
-		this._transFormElToFlexRow(el);
+		this._transFormElToFlexrow(el);
 		BaseEl.prototype.append.call(this, el);
 		return this;
 	},
 	prepend:function(el) {
-		this._transFormElToFlexRow(el);
+		this._transFormElToFlexrow(el);
 		BaseEl.prototype.prepend.call(this, el);
 		return this;
 	},

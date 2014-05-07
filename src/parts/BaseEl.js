@@ -1,4 +1,5 @@
 var BaseEl = stdClass.extend({
+	defaultCss:{},
 	constructor:function(parent){
 		this.styles = {};
 
@@ -7,6 +8,10 @@ var BaseEl = stdClass.extend({
 		if(parent){
 			this.setParent(parent);
 		}
+		this.__loadDefaultCss();
+	},
+	__loadDefaultCss:function(){
+		this.css(clone(this.defaultCss));
 	},
 	setParent:function(p){
 		this.parent = p;
@@ -108,15 +113,19 @@ var BaseEl = stdClass.extend({
 		}
 	},
 	append:function(el){
-		this.children.append(el);
-		el.setParent(this);
+		if(el){
+			this.children.append(el);
+			el.setParent(this);
+		}
 
 		return this;
 	},
 	prepend:function(el){
+		if(el){
+			this.children.prepend(el);
+			el.setParent(this);
+		}
 		
-		this.children.prepend(el);
-		el.setParent(this);
 		return this;
 	},
 	appendTo:function(el){

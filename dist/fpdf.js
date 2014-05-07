@@ -3,12 +3,18 @@ window.c = function(d){console.log(d);return d;};
  * FPDF.js
  * https://github.com/platdesign/fpdf
  *
- * @author Christian Blaschke - @platdesign
+ * @author Christian Blaschke - @platdesign - mail@platdesign.de
  * @version 0.0.1
  */
 
-(function(window, jsPDF){
+
+
+(function(window){
 	var name = 'FPDF';
+
+var err = function(val){
+	console.error('FPDF: ' + val);
+}
 
 var hexToRgb = function(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -129,6 +135,7 @@ var Children = stdClass.extend({
 
 
 var BaseEl = stdClass.extend({
+	defaultCss:{},
 	constructor:function(parent){
 		this.styles = {};
 
@@ -137,6 +144,10 @@ var BaseEl = stdClass.extend({
 		if(parent){
 			this.setParent(parent);
 		}
+		this.__loadDefaultCss();
+	},
+	__loadDefaultCss:function(){
+		this.css(clone(this.defaultCss));
 	},
 	setParent:function(p){
 		this.parent = p;
@@ -238,15 +249,19 @@ var BaseEl = stdClass.extend({
 		}
 	},
 	append:function(el){
-		this.children.append(el);
-		el.setParent(this);
+		if(el){
+			this.children.append(el);
+			el.setParent(this);
+		}
 
 		return this;
 	},
 	prepend:function(el){
+		if(el){
+			this.children.prepend(el);
+			el.setParent(this);
+		}
 		
-		this.children.prepend(el);
-		el.setParent(this);
 		return this;
 	},
 	appendTo:function(el){
@@ -322,13 +337,13 @@ var Page = BaseEl.extend({
 		this.children = new Children(this);
 		this.setParent(this);
 		this.doc = doc;
-		
+		this.__loadDefaultCss();
 	},
 	initialize:function(){},
 
 	initializeHeaderAndFooter:function(){
-		this._header = FPDF.Div({top:0,left:0}).appendTo(this);
-		this._footer = FPDF.Div({top:0,left:0}).appendTo(this);
+		this._header = FPDF.el('div').appendTo(this);
+		this._footer = FPDF.el('div').appendTo(this);
 
 		this._header.afterRender = this._footer.afterRender = function(){
 			this.parent.c.y = 0;
@@ -367,220 +382,6 @@ var Page = BaseEl.extend({
 
 });
 
-var Div = BaseEl.extend({
-	render:function(){
-		var flag;
-		if(this.doc.styles.background!==null) {
-			if(this.styles.borderWidth > 0) {
-				flag = 'FD';
-			} else {
-				flag = 'F';
-			}
-		} else {
-			if(this.styles.borderWidth > 0) {
-				flag = 'S';
-			} else {
-				flag = null;
-			}
-		}
-
-		if(this.styles.borderWidth>0 || this.doc.styles.background!==null) {
-			this.doc._doc.roundedRect(this.left(),this.top(),this.width(),this.height(),this.styles.borderRadius,this.styles.borderRadius,flag);
-		}
-		
-	},
-
-	text:function(text){
-		if(!this._text) {
-			this._text = FPDF.Text().appendTo(this).inner(text);
-		} else {
-			this._text.inner(text);
-		}
-		
-		return this;
-	},
-	process:function(){
-		
-	}
-});
-
-var Text = BaseEl.extend({
-	inner:function(content){
-		this.content = content;
-		return this;
-	},
-	
-	height:function(){
-		var s = this.styles;
-		var ps = this.parent.styles;
-		return (this.content.length * this.lh()) + s.padding[0] + s.padding[2];
-	},
-
-	process:function(){
-		if(typeof this.content === 'function') {
-			this.content = this.content();
-		}
-
-
-		if(typeof this.content === 'string') {
-			this.content = this.doc._doc.splitTextToSize(this.content, this.width(), {fontSize:this.styles.fontSize, fontName:this.styles.fontFamily, fontStyle:this.styles.fontStyle});
-		}
-
-	},
-	fh:function(){
-		return this.styles.fontSize * 0.3527;
-	},
-	lh:function(){
-		return this.fh() * this.styles.lineHeight;
-	},
-	render:function(){
-		var left = this.left();
-		var top = this.top() + this._p(0);
-		var width = this.innerWidth();
-
-		for(var n in this.content) {
-			this.textLine(this.content[n], left, top, width);
-			top += this.lh();
-		}
-		return this;
-		
-	},
-	textLine:function(text, left, top, width) {
-
-
-		var align = 0;
-		
-		if(this.styles.textAlign === 'right') {
-			align = width - (this.doc._doc.getStringUnitWidth(text) * this.fh());
-		}
-		if(this.styles.textAlign === 'center') {
-			align = width/2 - ((this.doc._doc.getStringUnitWidth(text) * this.fh()/2));
-		}
-		
-		this.doc._doc.text(text, 
-			left + this._p(3) + align,
-			top + this.lh()/2 +  (this.fh()*3/8)
-		);
-	}
-});
-
-var Flexbox = Div.extend({
-	constructor:function(){
-		BaseEl.prototype.constructor.apply(this, arguments);
-	},
-	afterRender:function(){
-		this.parent.c.y += this.outerHeight();
-	},
-	
-	innerHeight:function(){
-		if(this.styles.height!==undefined){
-			return this.styles.height;
-		} else {
-			return this.children.heighest();
-		}
-	},
-	_transFormElToFlexRow:function(el){
-		el.width = FlexRow.prototype.width;
-		el.afterRender = FlexRow.prototype.afterRender;
-		el.styles.margin = 0;
-	},
-	append:function(el) {
-		this._transFormElToFlexRow(el);
-		BaseEl.prototype.append.call(this, el);
-		return this;
-	},
-	prepend:function(el) {
-		this._transFormElToFlexRow(el);
-		BaseEl.prototype.prepend.call(this, el);
-		return this;
-	},
-	_childWidthEvenly:function(){
-		return this.innerWidth() / this.children.stack.length;
-	}
-});
-
-var FlexRow = Div.extend({
-	
-	width:function(){
-		var width=0;
-
-		var childEvenly = this.parent._childWidthEvenly();
-		
-		var anz = this.parent.children.stack.length;
-		
-
-		if(this.styles.width!==undefined) {
-			width = this.styles.width;
-		} else {
-			width = childEvenly;
-		}
-
-		var childrenWidth = 0;
-		for(var n in this.parent.children.stack) {
-			var nthChild = this.parent.children.stack[n];
-
-			if(nthChild.styles.width!==undefined) {
-				childrenWidth += nthChild.styles.width;
-
-			} else {
-				childrenWidth += childEvenly;
-			}
-		}
-
-		var diff = (this.parent.innerWidth() - childrenWidth);
-		
-		return (width + (diff/anz)) - this._m(1) - this._m(3);
-	},
-
-	afterRender:function(){
-		this.parent.c.x += this.outerWidth();
-		//this.parent.c.y = 0;
-	}
-});
-
-
-/* EXPERIMENTAL */
-var Img = Div.extend({
-	render:function(){
-		Div.prototype.render.apply(this);
-		this.doc._doc.addImage(this.dataURI, 'PNG', this.left(), this.top(), this.width(), this.height());
-	},
-	text:function(){},
-	src:function(src){
-		var img = this.img = new Image();
-		img.src = src;
-		this._imgToDataUri();
-		return this;
-	},
-	width:function(){
-		return this.img.width * 0.264583333;
-	},
-	height:function(){
-		return this.img.height * 0.264583333;
-	},
-	_imgToDataUri:function(){
-		var img = this.img;
-
-		var that = this;
-		var data, canvas, ctx;
-
-		img.onload = function(){
-			// Create the canvas element.
-			var canvas = document.createElement('canvas');
-			canvas.width = img.width;
-			canvas.height = img.height;
-			// Get '2d' context and draw the image.
-			ctx = canvas.getContext("2d");
-			ctx.drawImage(img, 0, 0);
-			that.dataURI = canvas.toDataURL();
-		};
-		
-	},
-	process:function(){
-		
-	}
-});
-
 var Doc = stdClass.extend({
 	constructor:function(options){
 		options = options || {format:'a4',orientation:'portrait',unit:'mm'};
@@ -608,6 +409,13 @@ var Doc = stdClass.extend({
 		this.addPage(true);
 
 		this.initialize.apply(this, arguments);	
+
+		this.__defineGetter__("page", function(){
+        	return this._page();
+    	});
+    	
+		
+
 	},
 	initialize:function(){},
 	Page:Page,
@@ -631,7 +439,7 @@ var Doc = stdClass.extend({
 		
 	},
 
-	page:function(index) {
+	_page:function(index) {
 		if(index){
 			if(this.pages[index-1]) {
 				return this.pages[index-1];
@@ -641,9 +449,9 @@ var Doc = stdClass.extend({
 		}
 		
 	},
-	
-
-
+	getPageByIndex:function(index){
+		return this._page(index);
+	},
 	setX:function(x) {
 		if(x < 0) {
 			this.c.x = this.width() + x;
@@ -805,14 +613,257 @@ var Doc = stdClass.extend({
 		this._activePage = new this.Page(this);
 		this.pages.push(this._activePage);
 		this._activePage.css(this.styles);
+		this._activePage.__loadDefaultCss();
 		this._activePage.initialize();
 		this._activePage.initializeHeaderAndFooter();
 		this._activePage.index = this.pages.length;
 	}
 });
 
+
+var Div = BaseEl.extend({
+	render:function(){
+		var flag;
+		if(this.doc.styles.background!==null) {
+			if(this.styles.borderWidth > 0) {
+				flag = 'FD';
+			} else {
+				flag = 'F';
+			}
+		} else {
+			if(this.styles.borderWidth > 0) {
+				flag = 'S';
+			} else {
+				flag = null;
+			}
+		}
+
+		if(this.styles.borderWidth>0 || this.doc.styles.background!==null) {
+			this.doc._doc.roundedRect(this.left(),this.top(),this.width(),this.height(),this.styles.borderRadius,this.styles.borderRadius,flag);
+		}
+		
+	},
+
+	text:function(text){
+		if(!this._text) {
+			this._text = FPDF.el('text').appendTo(this).inner(text);
+		} else {
+			this._text.inner(text);
+		}
+		
+		return this;
+	},
+	process:function(){
+		
+	}
+});
+
+var Text = BaseEl.extend({
+	inner:function(content){
+		this.content = content;
+		return this;
+	},
 	
-	window[name] = {
+	height:function(){
+		var s = this.styles;
+		var ps = this.parent.styles;
+		return (this.content.length * this.lh()) + s.padding[0] + s.padding[2];
+	},
+
+	process:function(){
+		if(typeof this.content === 'function') {
+			this.content = this.content();
+		}
+
+
+		if(typeof this.content === 'string') {
+			this.content = this.doc._doc.splitTextToSize(this.content, this.width(), {fontSize:this.styles.fontSize, fontName:this.styles.fontFamily, fontStyle:this.styles.fontStyle});
+		}
+
+	},
+	fh:function(){
+		return this.styles.fontSize * 0.3527;
+	},
+	lh:function(){
+		return this.fh() * this.styles.lineHeight;
+	},
+	render:function(){
+		var left = this.left();
+		var top = this.top() + this._p(0);
+		var width = this.innerWidth();
+
+		for(var n in this.content) {
+			this.textLine(this.content[n], left, top, width);
+			top += this.lh();
+		}
+		return this;
+		
+	},
+	textLine:function(text, left, top, width) {
+
+
+		var align = 0;
+		
+		if(this.styles.textAlign === 'right') {
+			align = width - (this.doc._doc.getStringUnitWidth(text) * this.fh());
+		}
+		if(this.styles.textAlign === 'center') {
+			align = width/2 - ((this.doc._doc.getStringUnitWidth(text) * this.fh()/2));
+		}
+		
+		this.doc._doc.text(text, 
+			left + this._p(3) + align,
+			top + this.lh()/2 +  (this.fh()*3/8)
+		);
+	}
+});
+
+var Flexbox = Div.extend({
+	constructor:function(){
+		BaseEl.prototype.constructor.apply(this, arguments);
+	},
+	afterRender:function(){
+		this.parent.c.y += this.outerHeight();
+	},
+	
+	innerHeight:function(){
+		if(this.styles.height!==undefined){
+			return this.styles.height;
+		} else {
+			return this.children.heighest();
+		}
+	},
+	_transFormElToFlexrow:function(el){
+		el.width = Flexrow.prototype.width;
+		el.afterRender = Flexrow.prototype.afterRender;
+		el.styles.margin = 0;
+	},
+	append:function(el) {
+		this._transFormElToFlexrow(el);
+		BaseEl.prototype.append.call(this, el);
+		return this;
+	},
+	prepend:function(el) {
+		this._transFormElToFlexrow(el);
+		BaseEl.prototype.prepend.call(this, el);
+		return this;
+	},
+	_childWidthEvenly:function(){
+		return this.innerWidth() / this.children.stack.length;
+	}
+});
+
+var Flexrow = Div.extend({
+	
+	width:function(){
+		var width=0;
+
+		var childEvenly = this.parent._childWidthEvenly();
+		
+		var anz = this.parent.children.stack.length;
+		
+
+		if(this.styles.width!==undefined) {
+			width = this.styles.width;
+		} else {
+			width = childEvenly;
+		}
+
+		var childrenWidth = 0;
+		for(var n in this.parent.children.stack) {
+			var nthChild = this.parent.children.stack[n];
+
+			if(nthChild.styles.width!==undefined) {
+				childrenWidth += nthChild.styles.width;
+
+			} else {
+				childrenWidth += childEvenly;
+			}
+		}
+
+		var diff = (this.parent.innerWidth() - childrenWidth);
+		
+		return (width + (diff/anz)) - this._m(1) - this._m(3);
+	},
+
+	afterRender:function(){
+		this.parent.c.x += this.outerWidth();
+		//this.parent.c.y = 0;
+	}
+});
+
+
+/* EXPERIMENTAL */
+var Img = Div.extend({
+	render:function(){
+		Div.prototype.render.apply(this);
+		this.doc._doc.addImage(this.dataURI, 'PNG', this.left(), this.top(), this.width(), this.height());
+	},
+	text:function(){},
+	src:function(src){
+		var img = this.img = new Image();
+		img.src = src;
+		this._imgToDataUri();
+		return this;
+	},
+	width:function(){
+		return this.img.width * 0.264583333;
+	},
+	height:function(){
+		return this.img.height * 0.264583333;
+	},
+	_imgToDataUri:function(){
+		var img = this.img;
+
+		var that = this;
+		var data, canvas, ctx;
+
+		img.onload = function(){
+			// Create the canvas element.
+			var canvas = document.createElement('canvas');
+			canvas.width = img.width;
+			canvas.height = img.height;
+			// Get '2d' context and draw the image.
+			ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
+			that.dataURI = canvas.toDataURL();
+		};
+		
+	},
+	process:function(){
+		
+	}
+});
+
+	
+
+
+	var FPDF = window[name] = function(selector){
+		if(typeof selector === 'string' && selector.length > 0) {
+			return FPDF.el(selector);
+		}
+	};
+
+	FPDF.el = function(elName){
+		elName = ''+elName.toLowerCase();
+		elName = elName.charAt(0).toUpperCase() + elName.slice(1);
+
+		if( FPDF[elName] ) {
+			return new FPDF[elName]();
+		} else {
+			err('Cannot create element `' + elName + '`');
+		}
+	};
+
+	FPDF.Doc		= Doc;
+	FPDF.Div		= Div;
+	FPDF.Text		= FPDF.Span = Text;
+	FPDF.Flexbox	= Flexbox;
+	FPDF.Img		= Img;
+	FPDF.Page		= Page;
+
+/*
+	var FPDF = window[name] = {
 		Doc : 		Doc,
 		Div : 		initiator(Div),
 		Text: 		initiator(Text),
@@ -820,5 +871,5 @@ var Doc = stdClass.extend({
 		Img: 		initiator(Img),
 		Page: 		Page
 	};
-
-}(window, jsPDF));
+*/
+}(window));

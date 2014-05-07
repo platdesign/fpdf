@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>FPDF.js - DEMO</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="description" content="Demo project">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+		<script type="text/javascript" src="../vendor/stdClass/stdClass.js"></script>
+		<script type="text/javascript" src="../vendor/jspdf/dist/jspdf.min.js"></script>
+		<script src="../dist/fpdf.js"></script>
+		
+	</head>
+	<body>
+		
+		<iframe id="test" width="100%" height="880px"></iframe>
+
+	</body>
+	<script type="text/javascript">
+		var iframe = document.getElementById('test');
+
+
+		var lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+
+		var Letter = FPDF.Doc.extend({
+			Page: FPDF.Page.extend({
+				defaultCss:{
+					padding:[40, 20, 20, 24],
+					color:'aa0000'
+				},
+				header:function(){
+					this.text('Header\nasd\nasd').css({marginTop:-20});
+				},
+				footer:function(){
+					this.text('Footer').css({marginTop:this.doc.height() - 60});
+				}
+			}),
+
+		});
+
+		var doc = new Letter;
+
+		FPDF('div').appendTo(doc.page)
+		.text(lorem)
+		.css({ marginBottom:30 })
+
+		FPDF('div').appendTo(doc.page)
+		.text(lorem)
+
+		doc.addPage();
+
+		iframe.src = doc.toDataUri("datauristring");
+		
+
+
+		
+
+		
+	</script>
+</html>

@@ -1,6 +1,6 @@
 var 
-		gulp 	=	require('gulp')
-	,	include = 	require('gulp-include')
+		gulp 		= require('gulp')
+	,	include 	= require('gulp-include')
 	,	watch 		= require('gulp-watch')
 	,	jshint 		= require('gulp-jshint')
 	,	stylish 	= require('jshint-stylish')
