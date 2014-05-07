@@ -4,15 +4,16 @@ Create PDF-Files with Javascript in the Browser.
 
 
 ##Install
-1. Download it your favorite way
+1. Choose your favorite way to get FPDF.js
 	- Bower: `bower install --save fpdf`
- 	- [Download as Zip-Archive]()
- 	- `git clone `
-2. Embed into your HTML
+ 	- [Download as Zip-Archive](https://github.com/platdesign/fpdf/archive/master.zip)
+ 	- `git clone https://github.com/platdesign/fpdf.git`
+2. Embed it into your HTML
 		
 		<script src="vendor/fpdf/dist/fpdf.min.js"></script>
 
-3. Have fun creating PDF-Files!
+3. Start creating PDF-Files in the Browser or read the [Docs]() first... ;)
+
 
 ##Dependencies
 
@@ -21,7 +22,9 @@ FPDF.js depends on two JS-Tools
 - [stdClass](https://github.com/platdesign/stdclass)
 - [jsPDF](https://github.com/MrRio/jsPDF)
 
-If you install FPDF.js with `Bower` they will be installed automatically.
+If you install FPDF.js with `Bower` the dependencies will be installed automatically.
+
+
 
 ##Hello World
 
