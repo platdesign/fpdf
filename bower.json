@@ -20,7 +20,6 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.1",
     "jspdf": "~1.0.119",
     "stdClass": "*"
   }
