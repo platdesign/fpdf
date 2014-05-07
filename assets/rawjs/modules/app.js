@@ -18,9 +18,7 @@ define([
 	}]);
 
 	app.controller('appCtrl', ['$scope', '$timeout', '$sce', function ($scope, $timeout, $sce) {
-		$scope.test;
-
-		var doc = new FPDF.Doc();
+		
 
 		var doc = new FPDF.Doc();
 
