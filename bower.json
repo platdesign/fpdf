@@ -17,7 +17,6 @@
   "dependencies": {
     "_normalize.scss": "*",
     "jquery": "~2.1.0",
-    "modernizr": "~2.7.2",
-    "font-awesome": "~4.0.3"
+    "modernizr": "~2.7.2"
   }
 }
