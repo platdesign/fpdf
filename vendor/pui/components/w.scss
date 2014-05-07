@@ -1,0 +1,25 @@
+
+%w {
+
+}
+@mixin w($count:12) {
+	@for $a from 1 through $count {
+		@for $b from 1 through $a {
+			.w-#{$b}-#{$a} {
+				width: percentage($b / $a);
+			}
+		}
+	}
+}
+
+
+@mixin fw {
+
+	.fw-100 {
+		width:200px;
+	}
+	.fw-300 {
+		width:300px;
+	}
+
+}
