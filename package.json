@@ -1,0 +1,22 @@
+{
+	"name":"FPDF",
+	"version":"0.0.0",
+	"description":"Create PDF-Files in the Browser",
+	"keywords":["PDF","FPDF"],
+	"author":{
+		"name":"Christian Blaschke",
+		"email":"mail@platdesign.de",
+		"url":"http://www.platdesign.de"
+	},
+	
+	"license":"MIT",
+	"repository": {
+    	"type": "git",
+    	"url": "github.com/platdesign/fpdf"
+ 	},
+
+  "dependencies": {
+    "gulp": "~3.6.2",
+    "gulp-include": "~0.2.2"
+  }
+}
