@@ -6,7 +6,7 @@
  * @version 0.0.1
  */
 
-(function(window, jsPDF){
+(function(window){
 	var name = 'FPDF';
 
 	//= include parts/helper.js
@@ -31,4 +31,4 @@
 		Page: 		Page
 	};
 
-}(window, jsPDF));
+}(window));
