@@ -17,6 +17,9 @@
   "dependencies": {
     "_normalize.scss": "*",
     "jquery": "~2.1.0",
-    "modernizr": "~2.7.2"
+    "modernizr": "~2.7.2",
+    "angular": "~1.2.16",
+    "angular-ui-router": "~0.2.10",
+    "pui": "*"
   }
 }

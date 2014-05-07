@@ -1,7 +1,17 @@
 define([
-	'../../../vendor/jquery/dist/jquery.js'
+	'../../../vendor/jquery/dist/jquery',
+	'../../../vendor/angular/angular',
+	'../../../vendor/angular-ui-router/release/angular-ui-router',
+	
+	'../../../vendor/stdClass/stdClass',
+	'../../../vendor/jspdf/dist/jspdf.debug',
+	'../../../vendor/fpdf/dist/fpdf'
 ], function(){
 
 	// Helper for development
-	window.c = function() { console.log.apply(console, arguments); };
+	var c = window.c = function() { console.log.apply(console, arguments); };
+
+
+	
+
 });
