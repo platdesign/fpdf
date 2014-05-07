@@ -14,6 +14,14 @@ Create PDF-Files with Javascript in the Browser.
 
 3. Have fun creating PDF-Files!
 
+##Dependencies
+
+FPDF.js depends on two JS-Tools
+
+- [stdClass](https://github.com/platdesign/stdclass)
+- [jsPDF](https://github.com/MrRio/jsPDF)
+
+If you install FPDF.js with `Bower` they will be installed automatically.
 
 ##Hello World
 
@@ -44,6 +52,8 @@ Tested in the following Browsers. I'd appreciate to get test-results of older br
 - Firefox (28.0)
 - Safari (7.0.3)
 
+##Version 
+0.1.0
 
 ##License
 This project is under the MIT license. Let me know if you'll use it. =)

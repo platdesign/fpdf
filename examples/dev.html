@@ -10,7 +10,7 @@
 
 		<script type="text/javascript" src="../vendor/stdClass/stdClass.js"></script>
 		<script type="text/javascript" src="../vendor/jspdf/dist/jspdf.min.js"></script>
-		<script src="../src/fpdf.js"></script>
+		<script src="../dist/fpdf.js"></script>
 		
 	</head>
 	<body>
@@ -181,7 +181,7 @@
 		}).appendTo(box);
 
 
-		doc.render();
+		
 		iframe.src = doc.toDataUri("datauristring");
 		
 

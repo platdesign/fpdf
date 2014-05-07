@@ -1,0 +1,1 @@
+window.c = function(d){console.log(d);return d;};
