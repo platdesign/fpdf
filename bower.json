@@ -1,5 +1,5 @@
 {
-  "name": "pd-front-init",
+  "name": "bp",
   "version": "0.0.0",
   "authors": [
     "Christian Blaschke <mail@platdesign.de>"
@@ -13,13 +13,17 @@
     "test",
     "tests"
   ],
-  "devDependencies": {},
   "dependencies": {
     "_normalize.scss": "*",
     "jquery": "~2.1.0",
-    "modernizr": "~2.7.2",
+    "modernizr": "~2.7.2"
+  },
+  "devDependencies": {
+    "pui": "*",
     "angular": "~1.2.16",
     "angular-ui-router": "~0.2.10",
-    "pui": "*"
+    "fpdf": "*",
+    "jspdf": "~1.0.119",
+    "stdClass": "*"
   }
 }

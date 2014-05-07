@@ -1,32 +1,57 @@
-var 
+var
 		fs 			= require('fs')
-	,	gulp 		= require('gulp')
-	, 	uglify 		= require('gulp-uglify')
-	, 	rename 		= require('gulp-rename')
-	,	concat		= require('gulp-concat')
-	,	sass 		= require('gulp-ruby-sass')
-	,	plumber 	= require('gulp-plumber')
-	,	livereload 	= require('gulp-livereload')
-	,	cssprefix 	= require('gulp-autoprefixer')
-	,	requirejs	= require('requirejs')
-	,	watch 		= require('gulp-watch')
+	,	gulp		= require('gulp')
+	,	include		= require('gulp-include')
+	,	watch		= require('gulp-watch')
 	,	jshint 		= require('gulp-jshint')
 	,	stylish 	= require('jshint-stylish')
+	,	concat		= require('gulp-concat')
+	, 	rename 		= require('gulp-rename')
+	, 	uglify 		= require('gulp-uglify')
+	, 	ignore 		= require('gulp-ignore')
 
 	,	gulpif 		= require('gulp-if')
 	,	sprite 		= require('css-sprite').stream
 
-	,	jade 		= require('gulp-jade')
+	,	sass 		= require('gulp-ruby-sass')
+	,	plumber 	= require('gulp-plumber')
+	,	livereload 	= require('gulp-livereload')
+	,	cssprefix 	= require('gulp-autoprefixer')
+
+	,	jade		= require('gulp-jade')
 ;
 
 
 
 
-gulp.task('default', function() {
 
-	console.log('Nothing to do...');
 
+
+
+gulp.task('js-dev', function(){
+	return gulp.src(['assets/rawjs/**/*.js'])
+
+		.pipe( watch() )
+		.pipe( include() )
+		.pipe( jshint() )
+		.pipe( jshint.reporter(stylish) )
+		.pipe( ignore.exclude('**/_*') )
+
+	.pipe( gulp.dest( 'assets/js' ));
 });
+
+
+gulp.task('js-build', function(){
+	return gulp.src(['assets/rawjs/*.js'])
+		.pipe( include() )
+		.pipe( jshint() )
+		.pipe( jshint.reporter(stylish) )
+		.pipe( ignore.exclude('**/_*') )
+		.pipe( uglify() )
+	.pipe( gulp.dest( 'assets/js' ));
+});
+
+
 
 
 
@@ -63,86 +88,11 @@ gulp.task('sprites', function() {
 
 		list.forEach(function(file) {
 			if(fs.lstatSync(dir + '/' + file).isDirectory()) {
-
 				createSprite(file);
 			}
 		});
 	});
 });
-
-
-
-
-
-
-
-
-gulp.task('js-dev', function(){
-
-	gulp.src([
-		'vendor/modernizr/modernizr.js',
-		'node_modules/requirejs/require.js',
-		'assets/rawjs/config.dev.js'
-	])
-	.pipe( concat( 'head.js' ) )
-	.pipe( gulp.dest('./assets/js') );
-
-
-
-	gulp.src('assets/rawjs/**/*.js')
-	.pipe( watch() )
-	.pipe(jshint())
-	.pipe(jshint.reporter(stylish));
-
-	gulp.src('partials/jade/**/*.jade')
-	.pipe( watch() )
-	.pipe(jade())
-	.pipe( gulp.dest('partials/html') );
-});
-
-
-
-
-
-
-
-gulp.task('js-build', function(){
-
-	gulp.src([
-		'vendor/modernizr/modernizr.js',
-		'node_modules/requirejs/require.js',
-		'assets/rawjs/config.js'
-	])
-	.pipe( concat( 'head.js' ) )
-	.pipe( uglify() )
-	.pipe( gulp.dest('./assets/js') );
-
-
-
-	var optimizeRequirePackage = function(name) {
-		requirejs.optimize({
-			baseUrl:'./',
-			name:name,
-			paths:{
-				'assets/js':'assets/rawjs'
-			},
-			out:name + '.js'
-		});
-	};
-
-	// Scan modules-dir and optimize each module
-	fs.readdir('assets/rawjs/modules', function(err, list) {
-		if (err) return err;
-
-		list.forEach(function(file) {
-			var name = file.replace('.js', '');
-
-			optimizeRequirePackage('assets/js/modules/' + name);
-		});
-	});
-
-});
-
 
 
 
@@ -163,8 +113,24 @@ gulp.task('scss-dev', function(){
 			precision:10
 		} ) )
 		.pipe( cssprefix('last 5 version', '> 1%', "ie 8", "ie 7") )
+		.pipe( ignore.exclude('**/*.scss') )
 		.pipe( gulp.dest('assets/css') )
 		.pipe( livereload() )
+	;
+});
+
+
+
+
+gulp.task('scss-build', function(){
+	return gulp.src('assets/scss/**/*.scss')
+		.pipe( sass( {
+			style:'compressed',
+			precision:10
+		} ) )
+		.pipe( cssprefix('last 5 version', '> 1%', "ie 8", "ie 7") )
+		.pipe( ignore.exclude('**/*.scss') )
+		.pipe( gulp.dest('assets/css') )
 	;
 });
 
@@ -174,16 +140,12 @@ gulp.task('scss-dev', function(){
 
 
 
-gulp.task('scss-build', function(){
+gulp.task('jade-dev', function(){
 
-
-	return gulp.src('assets/scss/**/*.scss')
-		.pipe( sass( {
-			style:'compressed',
-			precision:10
-		} ) )
-		.pipe( cssprefix('last 5 version', '> 1%', "ie 8", "ie 7") )
-		.pipe( gulp.dest('assets/css') )
+	return gulp.src('assets/jade/**/*.jade')
+		.pipe( watch() )
+		.pipe( jade() )
+		.pipe( gulp.dest('assets/html') )
 	;
 });
 
@@ -196,18 +158,15 @@ gulp.task('scss-build', function(){
 
 
 gulp.task('dev', [
+	'jade-dev',
 	'sprites',
-	'js-dev', 
+	'js-dev',
 	'scss-dev'
 ]);
 
+
 gulp.task('build', [
 	'sprites',
-	'js-build', 
+	'js-build',
 	'scss-build'
 ]);
-
-
-
-
-

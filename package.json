@@ -1,5 +1,6 @@
 {
-  "title": "pd-front-init",
+  "title": "bp",
+  "description": "A Frontend Boilerplate",
   "version": "0.0.1",
   "author": {
     "name": "Christian Blaschke",
@@ -10,10 +11,6 @@
       "type": "MIT"
     }
   ],
-  "engines": {
-    "node": "0.8.x",
-    "npm": "1.1.x"
-  },
   "scripts": {
     "install": "bower install"
   },
@@ -34,6 +31,8 @@
     "jshint-stylish": "~0.1.5",
     "css-sprite": "~0.7.0-beta2",
     "gulp-if": "0.0.5",
+    "gulp-include": "~0.2.2",
+    "gulp-ignore": "~1.0.1",
     "gulp-jade": "~0.5.0"
   }
 }
