@@ -1,0 +1,78 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,800);
+
+@import '../../vendor/_normalize.scss/normalize.scss';
+@import '../../vendor/pui/pui.scss';
+
+@include pui;
+
+ul { list-style: none; li { margin: .4em 0; }}
+a { color:inherit; text-decoration: none; }
+
+
+
+
+body {
+	-webkit-font-smoothing:antialiased;
+	font-family: 'Open Sans', sans-serif;
+	line-height: 1.4;
+}
+
+h1, h2, h3, h4 { font-weight: 400; }
+
+p + h1 {
+	margin-top: 1em;
+}
+.fa {
+	text-align: center;
+	width: 1.2em;
+	font-size: 1.2em;
+	transition: all .2s;
+
+	&+ span {
+		margin-left: .5em;
+	}
+}
+
+a:hover .fa {
+	color:#fff;
+	text-shadow: 0 0 4px rgba(white, .4);
+}
+.thin {
+	font-weight: 300;
+}
+
+header {
+	background: linear-gradient(bottom, lighten($navy, 5%) 55%, lighten($navy, 18%));
+	padding:4em 0;
+	text-align: center;
+	color: mix($navy, #fff, 30%);
+	box-shadow: inset 0 -10px 55px -5px rgba(black, .4);
+	h1 {
+		font-weight: 800;
+		font-size: 5em;
+		text-shadow: 0 0 80px rgba(white, .4), 0 0 5px rgba(black, .8);
+		margin-bottom: .3em;
+		color: mix($navy, #fff, 25%);
+	}
+
+	h2 {
+		font-size: 2.6em;
+		font-weight: 300;
+		color:#fff;
+		text-shadow: 0 0 10px rgba(white, .5);
+	}
+}
+
+
+footer, body {
+	background: #222;
+}
+
+footer {
+	color: darken(white, 50%);
+	padding: 2em 0;
+
+	h1 {
+		font-weight: 300;
+	}
+}

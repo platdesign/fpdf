@@ -1,0 +1,23 @@
+{
+  "name": "pd-front-init",
+  "version": "0.0.0",
+  "authors": [
+    "Christian Blaschke <mail@platdesign.de>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {},
+  "dependencies": {
+    "_normalize.scss": "*",
+    "jquery": "~2.1.0",
+    "modernizr": "~2.7.2",
+    "font-awesome": "~4.0.3"
+  }
+}
