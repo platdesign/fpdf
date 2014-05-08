@@ -31,12 +31,12 @@ app.controller('appCtrl', ['$scope', '$timeout', '$sce', function ($scope, $time
 		render:function(){
 			var doc = new FPDF.Doc();
 
-			doc.page().css({
-				padding:20
-			});
+			doc.css({
+				padding:[20, 20, 30, 20]
+			})
 
-			FPDF.Div()
-				.appendTo(doc.page())
+			FPDF('div')
+				.appendTo(doc)
 				.text(this.title+'')
 				.css({
 					fontSize:50,
@@ -44,21 +44,21 @@ app.controller('appCtrl', ['$scope', '$timeout', '$sce', function ($scope, $time
 					color:'777'
 				});
 
-			FPDF.Div()
-				.appendTo(doc.page())
+			FPDF('div')
+				.appendTo(doc)
 				.text(this.content+'')
 				.css({
-					fontSize:12,
+					fontSize:22,
 					textAlign:'left',
 					padding:5,
 					background:'7FDBFF',
 					color:'#0074D9',
 					lineHeight:1.4,
 					borderRadius: 3,
-					marginTop:10
+					margin:10
 				});
 
-			this.src = $sce.trustAsResourceUrl(doc.toDataUri());
+			this.src = $sce.trustAsResourceUrl( doc.toDataUri() );
 		}
 	};
 	$scope.examplePDF.render();
