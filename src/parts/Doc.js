@@ -129,8 +129,9 @@ FPDF.Doc = stdClass.extend({
 
 		return this._doc.internal.pageSize.height;
 	},
-
-
+	innerWidth:function(){ return this.width(); },
+	outerWidth:function(){ return this.width(); },
+	left:function(){ return 0; },
 
 
 	_getStyles:function(){
@@ -320,4 +321,8 @@ FPDF.Doc = stdClass.extend({
 		return FPDF.BaseEl.prototype._p.apply(this._arrangePage, arguments);
 	}
 
+},{
+	__parent:function(scope, arguments){
+		return this.prototype.constructor.apply(scope, arguments);
+	}
 });

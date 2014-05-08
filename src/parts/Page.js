@@ -17,8 +17,8 @@ FPDF.Page = FPDF.BaseEl.extend({
 
 	initializeHeaderAndFooter:function(){
 		
-		this._header = new HeaderFooter();
-		this._footer = new HeaderFooter();
+		this._header = new HeaderFooter().setParent(this);
+		this._footer = new HeaderFooter().setParent(this);
 
 		this._header.afterRender = this._footer.afterRender = function(){
 			this.parent.c.y = 0;

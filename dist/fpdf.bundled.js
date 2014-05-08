@@ -8996,7 +8996,9 @@ FPDF.BaseEl = stdClass.extend({
 
 		var sanitizeColor = function(key) {
 			var val = styles[key];
-
+			if(typeof val === 'number') {
+				val = ''+val;
+			}
 			if(typeof val === 'string') {
 				val = val.replace('#', '');
 
@@ -9278,6 +9280,11 @@ FPDF.BaseEl = stdClass.extend({
 
 
 
+},{
+	__parent:function(scope, arguments){
+		return this.prototype.constructor.apply(scope, arguments);
+	}
+
 });
 
 
@@ -9346,8 +9353,8 @@ FPDF.Page = FPDF.BaseEl.extend({
 
 	initializeHeaderAndFooter:function(){
 		
-		this._header = new HeaderFooter();
-		this._footer = new HeaderFooter();
+		this._header = new HeaderFooter().setParent(this);
+		this._footer = new HeaderFooter().setParent(this);
 
 		this._header.afterRender = this._footer.afterRender = function(){
 			this.parent.c.y = 0;
@@ -9546,8 +9553,9 @@ FPDF.Doc = stdClass.extend({
 
 		return this._doc.internal.pageSize.height;
 	},
-
-
+	innerWidth:function(){ return this.width(); },
+	outerWidth:function(){ return this.width(); },
+	left:function(){ return 0; },
 
 
 	_getStyles:function(){
@@ -9737,6 +9745,10 @@ FPDF.Doc = stdClass.extend({
 		return FPDF.BaseEl.prototype._p.apply(this._arrangePage, arguments);
 	}
 
+},{
+	__parent:function(scope, arguments){
+		return this.prototype.constructor.apply(scope, arguments);
+	}
 });
 
 	
@@ -9938,6 +9950,8 @@ FPDF.Img = FPDF.Div.extend({
 			err('Cannot create element `' + elName + '`');
 		}
 	};
+
+	FPDF.Doctypes = {};
 
 	return FPDF;
 }));

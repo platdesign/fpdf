@@ -56,6 +56,8 @@
 		}
 	};
 
+	FPDF.Doctypes = {};
+
 	return FPDF;
 }));
 

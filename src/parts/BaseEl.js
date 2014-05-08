@@ -80,7 +80,9 @@ FPDF.BaseEl = stdClass.extend({
 
 		var sanitizeColor = function(key) {
 			var val = styles[key];
-
+			if(typeof val === 'number') {
+				val = ''+val;
+			}
 			if(typeof val === 'string') {
 				val = val.replace('#', '');
 
@@ -361,6 +363,11 @@ FPDF.BaseEl = stdClass.extend({
 	}
 
 
+
+},{
+	__parent:function(scope, arguments){
+		return this.prototype.constructor.apply(scope, arguments);
+	}
 
 });
 
