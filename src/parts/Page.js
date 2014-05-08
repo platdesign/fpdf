@@ -37,6 +37,12 @@ FPDF.Page = FPDF.BaseEl.extend({
 	},
 
 	render:function(){
+
+		if(this.doc.styles.background!==null) {
+			this.doc._doc.roundedRect(0,0,this.doc.width(),this.doc.height(),0,0,'F');
+		}
+
+
 		this._footer.setParent(this)._process()._render();
 		this._header.setParent(this)._process()._render();
 	},

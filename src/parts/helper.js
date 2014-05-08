@@ -62,7 +62,8 @@ var inheritStyles = function(styles, parentStyles) {
 	delete(ps.left);
 	delete(ps.top);
 	delete(ps.right);
-
+	delete(ps.background);
+	
 	return clone(ps, styles);
 };
 
