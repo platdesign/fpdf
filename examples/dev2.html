@@ -28,14 +28,15 @@
 		var Letter = FPDF.Doc.extend({
 			Page: FPDF.Page.extend({
 				defaultCss:{
-					padding:[40, 20, 20, 24],
-					color:'aa0000'
+					padding:[5,5,50,5],
+					color:'aa0000',
+					background:'eaeaea'
 				},
 				header:function(){
 					this.text('Header\nasd\nasd').css({marginTop:-20});
 				},
 				footer:function(){
-					this.text('Footer').css({marginTop:this.doc.height() - 60});
+					this.text('Footer').css({left:5, marginTop:60});
 				}
 			}),
 
@@ -43,14 +44,34 @@
 
 		var doc = new Letter;
 
-		FPDF('div').appendTo(doc.page)
-		.text(lorem)
-		.css({ marginBottom:30 })
 
-		FPDF('div').appendTo(doc.page)
-		.text(lorem)
+		var box = function() {
+			return FPDF('div')
+			.text(lorem)
+			.css({
+				//background:'#444444',
+				color:'fff',
+				padding:10,
+				borderWidth:1,
+				borderColor:'ffaa00',
+				margin: 5
+			})
+		};
+		
 
-		doc.addPage();
+		box().appendTo(doc);
+		box().appendTo(doc);
+		box().appendTo(doc);
+		box().appendTo(doc);
+		box().appendTo(doc);
+		box().appendTo(doc);
+		box().appendTo(doc);
+		box().appendTo(doc);
+
+		
+
+
+
 
 		iframe.src = doc.toDataUri("datauristring");
 		

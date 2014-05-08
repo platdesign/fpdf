@@ -1,5 +1,6 @@
 var BaseEl = stdClass.extend({
 	defaultCss:{},
+	_name:'BaseEl',
 	constructor:function(parent){
 		this.styles = {};
 
@@ -9,6 +10,8 @@ var BaseEl = stdClass.extend({
 			this.setParent(parent);
 		}
 		this.__loadDefaultCss();
+
+		
 	},
 	__loadDefaultCss:function(){
 		this.css(clone(this.defaultCss));
@@ -17,6 +20,10 @@ var BaseEl = stdClass.extend({
 		this.parent = p;
 		this.doc = this.parent.doc;
 		this.children.setParent(this);
+
+		this.__defineGetter__("doc", function(){
+        	return this.parent.doc;
+    	});
 	},
 	css:function(styles){
 		for(var n in styles){
@@ -28,7 +35,6 @@ var BaseEl = stdClass.extend({
 		this.c = {x:0,y:0};
 		this._processStyles();
 		this.process();
-
 
 		this.children._process();
 	},
@@ -114,7 +120,11 @@ var BaseEl = stdClass.extend({
 	},
 	append:function(el){
 		if(el){
+			if(el.parent) {
+				el.parent.children.removeEl(el);
+			}
 			this.children.append(el);
+			
 			el.setParent(this);
 		}
 
@@ -122,7 +132,11 @@ var BaseEl = stdClass.extend({
 	},
 	prepend:function(el){
 		if(el){
+			if(el.parent) {
+				el.parent.children.removeEl(el);
+			}
 			this.children.prepend(el);
+			
 			el.setParent(this);
 		}
 		
@@ -144,7 +158,7 @@ var BaseEl = stdClass.extend({
 		return 0;
 	},
 	_p:function(index){
-		if(this.styles.padding)
+		if(this.styles.padding!==undefined)
 			return this.styles.padding[index] || 0;
 
 		return 0;
@@ -191,5 +205,118 @@ var BaseEl = stdClass.extend({
 		} else {
 			return this.c.y + this.parent.top() + this.parent._p(0) + this._m(0);
 		}
+	},
+
+	__createCloneForSplitting:function(){
+		var w = FPDF(this._name);
+			w.styles = clone(this.styles);
+		return w;
+	},
+
+
+	_splitToHeight:function(height, y){
+		
+		var that = this;
+		var y = y || 0;
+		var els = [];
+		var wrapper;
+		var children = this.children.stack;
+
+		var wrapperCounter=0;
+
+		var createWrapper = function(ry){
+			y=ry||0;
+			var w = that.__createCloneForSplitting();
+			
+			els.push(w)
+
+			wrapperCounter++;
+			return w;
+		};
+
+		var wrapperAppend = function(c) {
+			wrapper.children.stack.push(c);
+		};
+
+		if(children.length>0) {
+			wrapper = createWrapper(y);
+		}
+
+		for(var n in children) {
+			var child = children[n];
+			var childHeight = child.outerHeight();
+
+
+			
+
+
+			if(childHeight + y < height) {
+				wrapperAppend(child);
+				y += childHeight;
+
+			} else {
+
+				if(!child.__doNotSplit) {
+
+					var parts = child._splitToHeight(height, y);
+					for(var p in parts) {
+
+						var part = parts[p];
+						
+							
+							wrapperAppend(part);
+							
+							if(p < parts.length-1) {
+								wrapper = createWrapper();
+								
+							} else {
+								y += part.outerHeight();
+							}
+							
+						
+						
+
+					}
+				} else {
+
+					wrapper = createWrapper();
+					wrapperAppend(child);
+					
+					y += childHeight;
+				}
+				
+
+			}
+		}
+
+
+
+
+		for(var nr in els) {
+			var w = els[nr];
+			
+			
+
+			if(els.length > 0) {
+				if(nr == 0) {
+					w.styles.margin[2]=0;
+				} else if( nr > 0 ) {
+					w.styles.margin[0]=0;
+				}
+			}
+		}
+
+		
+		return els;
 	}
+
+
+
 });
+
+
+
+
+
+
+

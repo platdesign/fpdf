@@ -1,4 +1,5 @@
 var Div = BaseEl.extend({
+	_name:'div',
 	render:function(){
 		var flag;
 		if(this.doc.styles.background!==null) {
@@ -29,8 +30,5 @@ var Div = BaseEl.extend({
 		}
 		
 		return this;
-	},
-	process:function(){
-		
 	}
 });

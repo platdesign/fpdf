@@ -1,15 +1,22 @@
 var Page = BaseEl.extend({
+	_name:'Page',
 	constructor:function(doc){
 		this.styles = {};
 		this.c = {x:0,y:0};
 		this.children = new Children(this);
 		this.setParent(this);
-		this.doc = doc;
+		
 		this.__loadDefaultCss();
+
+		this._doc = doc;
+		this.__defineGetter__("doc", function(){
+        	return this._doc;
+    	});
 	},
 	initialize:function(){},
 
 	initializeHeaderAndFooter:function(){
+		/*
 		this._header = FPDF.el('div').appendTo(this);
 		this._footer = FPDF.el('div').appendTo(this);
 
@@ -20,8 +27,14 @@ var Page = BaseEl.extend({
 
 		this.header.call(this._header);
 		this.footer.call(this._footer);
+		*/
 	},
-
+	__createCloneForSplitting:function(){
+		var w = new this.doc.Page(this.doc);
+			
+			w.styles = clone(this.styles);
+		return w;
+	},
 	width:function(){
 		return this.doc.width();
 	},

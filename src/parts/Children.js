@@ -27,7 +27,7 @@ var Children = stdClass.extend({
 	height:function(){
 		var height=0;
 		for(var n in this.stack) {
-			height+=this.stack[n].outerHeight();
+			height += this.stack[n].outerHeight();
 		}
 		return height;
 	},
@@ -42,5 +42,8 @@ var Children = stdClass.extend({
 		}
 
 		return height;
+	},
+	removeEl:function(el){
+		this.stack.splice(this.stack.indexOf(el), 1);
 	}
 });

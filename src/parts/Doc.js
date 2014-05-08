@@ -1,6 +1,7 @@
 var Doc = stdClass.extend({
 	constructor:function(options){
 		options = options || {format:'a4',orientation:'portrait',unit:'mm'};
+		this.doc = this;
 		
 		this.c = {x:0,y:0};
 		this._doc = new jsPDF(options);
@@ -21,8 +22,8 @@ var Doc = stdClass.extend({
 			padding:[0,0,0,0]
 		};
 
-		this.pages = [];
-		this.addPage(true);
+		//this.pages = [];
+		//this.addPage(true);
 
 		this.initialize.apply(this, arguments);	
 
@@ -30,20 +31,49 @@ var Doc = stdClass.extend({
         	return this._page();
     	});
     	
-		
+		this._arrangePage = this._createArrangePage();
 
 	},
 	initialize:function(){},
 	Page:Page,
 
-	render:function() {
-		var n;
-		for(n in this.pages) {
+	_process:function(){
+		for(var n in this.pages) {
 			this.pages[n]._process();
 		}
+	},
+	_arrange:function(){
+		this.pages = [];
+		var page = this._arrangePage;
+		
+		page._process();
 
-		for(n in this.pages) {
+		if(page.height() > this.height()) {
+			var maxHeight = this.height() - page._p(0) - page._p(2);
+			var pages = page._splitToHeight(maxHeight,0);
 			
+			for(var n in pages) {
+				var p = pages[n];
+				p.setParent(this);
+				//p._doc = this;
+				this.pages.push(p);
+			}
+
+		} else {
+			this.pages = [page];
+		}
+
+	},
+	render:function() {
+		
+		this._arrange();
+
+		//this._process();
+
+		for(var n in this.pages) {
+			//this.pages[n].doc = this;
+			//this.pages[n].setParent(this);
+
 			if(n > 0) {
 				this._doc.addPage();
 			}
@@ -233,5 +263,28 @@ var Doc = stdClass.extend({
 		this._activePage.initialize();
 		this._activePage.initializeHeaderAndFooter();
 		this._activePage.index = this.pages.length;
+
+		return this._activePage;
+	},
+
+	_createArrangePage:function(){
+		var page = new this.Page(this);
+		page.css(this.styles);
+		page.__loadDefaultCss();
+		page.initialize();
+
+		return page;
+	},
+
+
+
+
+	append:function(el) {
+		this._arrangePage.append(el);
+	},
+	prepend:function(el){
+		this._arrangePage.prepend(el);
 	}
+
+
 });

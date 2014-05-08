@@ -21,6 +21,7 @@
 
 	//= include parts/Div.js
 	//= include parts/Text.js
+	//= include parts/Textline.js
 	//= include parts/Flexbox.js
 	//= include parts/FlexRow.js
 	//= include parts/Img.js
@@ -47,6 +48,7 @@
 	FPDF.Doc		= Doc;
 	FPDF.Div		= Div;
 	FPDF.Text		= FPDF.Span = Text;
+	FPDF.Textline	= Textline;
 	FPDF.Flexbox	= Flexbox;
 	FPDF.Img		= Img;
 	FPDF.Page		= Page;

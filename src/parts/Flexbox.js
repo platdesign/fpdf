@@ -1,4 +1,5 @@
 var Flexbox = Div.extend({
+	_name:'Flexbox',
 	constructor:function(){
 		BaseEl.prototype.constructor.apply(this, arguments);
 	},

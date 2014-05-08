@@ -1,13 +1,13 @@
 var Text = BaseEl.extend({
+	_name:'Text',
 	inner:function(content){
 		this.content = content;
 		return this;
 	},
 	
+	
 	height:function(){
-		var s = this.styles;
-		var ps = this.parent.styles;
-		return (this.content.length * this.lh()) + s.padding[0] + s.padding[2];
+		return this.children.height();
 	},
 
 	process:function(){
@@ -20,40 +20,15 @@ var Text = BaseEl.extend({
 			this.content = this.doc._doc.splitTextToSize(this.content, this.width(), {fontSize:this.styles.fontSize, fontName:this.styles.fontFamily, fontStyle:this.styles.fontStyle});
 		}
 
+		this.children.stack.length = 0;
+		for(var n in this.content) {
+			FPDF('textline').appendTo(this).text = this.content[n];
+		}
 	},
 	fh:function(){
-		return this.styles.fontSize * 0.3527;
+		return (this.styles.fontSize) * 0.3527;
 	},
 	lh:function(){
-		return this.fh() * this.styles.lineHeight;
-	},
-	render:function(){
-		var left = this.left();
-		var top = this.top() + this._p(0);
-		var width = this.innerWidth();
-
-		for(var n in this.content) {
-			this.textLine(this.content[n], left, top, width);
-			top += this.lh();
-		}
-		return this;
-		
-	},
-	textLine:function(text, left, top, width) {
-
-
-		var align = 0;
-		
-		if(this.styles.textAlign === 'right') {
-			align = width - (this.doc._doc.getStringUnitWidth(text) * this.fh());
-		}
-		if(this.styles.textAlign === 'center') {
-			align = width/2 - ((this.doc._doc.getStringUnitWidth(text) * this.fh()/2));
-		}
-		
-		this.doc._doc.text(text, 
-			left + this._p(3) + align,
-			top + this.lh()/2 +  (this.fh()*3/8)
-		);
+		return this.fh() * (this.styles.lineHeight);
 	}
 });

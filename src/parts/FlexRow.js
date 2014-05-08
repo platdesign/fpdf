@@ -1,5 +1,5 @@
 var Flexrow = Div.extend({
-	
+	_name:'Flexrow',
 	width:function(){
 		var width=0;
 

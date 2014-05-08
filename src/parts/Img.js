@@ -1,6 +1,7 @@
 
 /* EXPERIMENTAL */
 var Img = Div.extend({
+	_name:'Img',
 	render:function(){
 		Div.prototype.render.apply(this);
 		this.doc._doc.addImage(this.dataURI, 'PNG', this.left(), this.top(), this.width(), this.height());
