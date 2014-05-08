@@ -1,6 +1,6 @@
 
 /* EXPERIMENTAL */
-var Img = Div.extend({
+FPDF.Img = FPDF.Div.extend({
 	_name:'Img',
 	render:function(){
 		Div.prototype.render.apply(this);

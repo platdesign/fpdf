@@ -1,4 +1,4 @@
-var Text = BaseEl.extend({
+FPDF.Text = FPDF.Span = FPDF.BaseEl.extend({
 	_name:'Text',
 	inner:function(content){
 		this.content = content;

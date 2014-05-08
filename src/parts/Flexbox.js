@@ -1,7 +1,7 @@
-var Flexbox = Div.extend({
+FPDF.Flexbox = FPDF.Div.extend({
 	_name:'Flexbox',
 	constructor:function(){
-		BaseEl.prototype.constructor.apply(this, arguments);
+		FPDF.BaseEl.prototype.constructor.apply(this, arguments);
 	},
 	afterRender:function(){
 		this.parent.c.y += this.outerHeight();
@@ -15,18 +15,18 @@ var Flexbox = Div.extend({
 		}
 	},
 	_transFormElToFlexrow:function(el){
-		el.width = Flexrow.prototype.width;
-		el.afterRender = Flexrow.prototype.afterRender;
+		el.width = FPDF.Flexrow.prototype.width;
+		el.afterRender = FPDF.Flexrow.prototype.afterRender;
 		el.styles.margin = 0;
 	},
 	append:function(el) {
 		this._transFormElToFlexrow(el);
-		BaseEl.prototype.append.call(this, el);
+		FPDF.BaseEl.prototype.append.call(this, el);
 		return this;
 	},
 	prepend:function(el) {
 		this._transFormElToFlexrow(el);
-		BaseEl.prototype.prepend.call(this, el);
+		FPDF.BaseEl.prototype.prepend.call(this, el);
 		return this;
 	},
 	_childWidthEvenly:function(){

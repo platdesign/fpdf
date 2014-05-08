@@ -1,4 +1,4 @@
-var BaseEl = stdClass.extend({
+FPDF.BaseEl = stdClass.extend({
 	defaultCss:{},
 	_name:'BaseEl',
 	constructor:function(parent){
@@ -156,7 +156,7 @@ var BaseEl = stdClass.extend({
 		return this;
 	},
 
-	_m:function(index){
+	_m:function(){
 
 		var v = this.styles.margin;
 
@@ -171,7 +171,7 @@ var BaseEl = stdClass.extend({
 		
 		return r;
 	},
-	_p:function(index){
+	_p:function(){
 		var v = this.styles.padding;
 
 		var r = 0;
@@ -269,9 +269,9 @@ var BaseEl = stdClass.extend({
 
 
 	_splitToHeight:function(height, y){
-		
+		y = y || 0;
 		var that = this;
-		var y = y || 0;
+		
 		var els = [];
 		var wrapper;
 		var children = this.children.stack;
@@ -282,7 +282,7 @@ var BaseEl = stdClass.extend({
 			y=ry||0;
 			var w = that.__createCloneForSplitting();
 			
-			els.push(w)
+			els.push(w);
 
 			wrapperCounter++;
 			return w;
@@ -344,7 +344,7 @@ var BaseEl = stdClass.extend({
 			var w = els[nr];
 
 			if(els.length > 0) {
-				if(nr == 0) {
+				if((nr*1) === 0) {
 					w.styles.margin[2]=0;
 				} else if( nr > 0 ) {
 					w.styles.margin[0]=0;

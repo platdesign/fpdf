@@ -1,4 +1,4 @@
-var Div = BaseEl.extend({
+FPDF.Div = FPDF.BaseEl.extend({
 	_name:'div',
 	render:function(){
 		var flag;

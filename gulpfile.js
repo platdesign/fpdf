@@ -23,11 +23,22 @@ gulp.task('dev', function(){
 				.pipe( include() )
 			.pipe( gulp.dest('./dist') );
 
+			// Bundle it with stdClass.js and jsPDF.js
+			gulp.src([
+				'vendor/stdClass/stdClass.js', 
+				'vendor/jspdf/dist/jspdf.debug.js',
+				'./src/devonly.js', 
+				'./src/fpdf.js'
+			])
+			.pipe( include() )
+			.pipe( concat('fpdf.bundled.js') )
+			
+			.pipe( gulp.dest('./dist') );
+
 		}) )
 		.pipe( jshint() )
 		.pipe( jshint.reporter(stylish) );
-		
-
+	
 });
 
 
@@ -37,6 +48,7 @@ gulp.task('build', function(){
 		.pipe( include() )
 		.pipe( jshint() )
 		.pipe( jshint.reporter(stylish) )
+		.pipe( gulp.dest('./dist') )
 		.pipe( rename('fpdf.min.js') )
 		.pipe( uglify({
 			outSourceMap: true,
@@ -48,14 +60,18 @@ gulp.task('build', function(){
 
 
 	// Bundle it with stdClass.js and jsPDF.js
-	gulp.src([
+	return gulp.src([
 		'vendor/stdClass/stdClass.js', 
 		'vendor/jspdf/dist/jspdf.debug.js',
-		'dist/fpdf.js'
+		'src/fpdf.js'
 	])
+	.pipe( include() )
 	.pipe( concat('fpdf.bundled.min.js') )
 	.pipe( uglify({
 		outSourceMap: true,
 	}) )
 	.pipe( gulp.dest('./dist') );
+
+
 });
+

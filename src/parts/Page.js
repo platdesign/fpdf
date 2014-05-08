@@ -1,4 +1,4 @@
-var Page = BaseEl.extend({
+FPDF.Page = FPDF.BaseEl.extend({
 	_name:'Page',
 	constructor:function(doc){
 		this.styles = {};
@@ -71,7 +71,7 @@ var Page = BaseEl.extend({
 
 
 
-var HeaderFooter = Div.extend({
+var HeaderFooter = FPDF.Div.extend({
 	pageIndex:function(){
 		return this.parent.index+1;
 	},

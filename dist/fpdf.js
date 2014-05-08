@@ -21,6 +21,14 @@ window.c = function(d){console.log(d);return d;};
 
 }(this, function () {
 	
+	
+
+	var FPDF = function(selector){
+		if(typeof selector === 'string' && selector.length > 0) {
+			return FPDF.el(selector);
+		}
+	};
+
 var err = function(val){
 	console.error('FPDF: ' + val);
 };
@@ -162,7 +170,7 @@ var Children = stdClass.extend({
 });
 
 
-var BaseEl = stdClass.extend({
+FPDF.BaseEl = stdClass.extend({
 	defaultCss:{},
 	_name:'BaseEl',
 	constructor:function(parent){
@@ -320,7 +328,7 @@ var BaseEl = stdClass.extend({
 		return this;
 	},
 
-	_m:function(index){
+	_m:function(){
 
 		var v = this.styles.margin;
 
@@ -335,7 +343,7 @@ var BaseEl = stdClass.extend({
 		
 		return r;
 	},
-	_p:function(index){
+	_p:function(){
 		var v = this.styles.padding;
 
 		var r = 0;
@@ -433,9 +441,9 @@ var BaseEl = stdClass.extend({
 
 
 	_splitToHeight:function(height, y){
-		
+		y = y || 0;
 		var that = this;
-		var y = y || 0;
+		
 		var els = [];
 		var wrapper;
 		var children = this.children.stack;
@@ -446,7 +454,7 @@ var BaseEl = stdClass.extend({
 			y=ry||0;
 			var w = that.__createCloneForSplitting();
 			
-			els.push(w)
+			els.push(w);
 
 			wrapperCounter++;
 			return w;
@@ -508,7 +516,7 @@ var BaseEl = stdClass.extend({
 			var w = els[nr];
 
 			if(els.length > 0) {
-				if(nr == 0) {
+				if((nr*1) === 0) {
 					w.styles.margin[2]=0;
 				} else if( nr > 0 ) {
 					w.styles.margin[0]=0;
@@ -536,7 +544,7 @@ var BaseEl = stdClass.extend({
 
 
 
-var Div = BaseEl.extend({
+FPDF.Div = FPDF.BaseEl.extend({
 	_name:'div',
 	render:function(){
 		var flag;
@@ -575,7 +583,7 @@ var Div = BaseEl.extend({
 });
 
 	
-var Page = BaseEl.extend({
+FPDF.Page = FPDF.BaseEl.extend({
 	_name:'Page',
 	constructor:function(doc){
 		this.styles = {};
@@ -648,7 +656,7 @@ var Page = BaseEl.extend({
 
 
 
-var HeaderFooter = Div.extend({
+var HeaderFooter = FPDF.Div.extend({
 	pageIndex:function(){
 		return this.parent.index+1;
 	},
@@ -657,7 +665,7 @@ var HeaderFooter = Div.extend({
 	}
 });
 
-var Doc = stdClass.extend({
+FPDF.Doc = stdClass.extend({
 	constructor:function(options){
 		options = options || {format:'a4',orientation:'portrait',unit:'mm'};
 		this.doc = this;
@@ -692,7 +700,7 @@ var Doc = stdClass.extend({
 		this._properties = {};
 	},
 	initialize:function(){},
-	Page:Page,
+	Page:FPDF.Page,
 
 	_process:function(){
 		for(var n in this.pages) {
@@ -718,7 +726,7 @@ var Doc = stdClass.extend({
 
 		} else {
 			page.index = 1;
-			page.setParent(this)
+			page.setParent(this);
 			page.initializeHeaderAndFooter();
 			this.pages.push(page);
 		}
@@ -973,16 +981,16 @@ var Doc = stdClass.extend({
 
 
 	_m:function(index){
-		return BaseEl.prototype._m.apply(this._arrangePage, arguments);
+		return FPDF.BaseEl.prototype._m.apply(this._arrangePage, arguments);
 	},
 	_p:function(index){
-		return BaseEl.prototype._p.apply(this._arrangePage, arguments);
+		return FPDF.BaseEl.prototype._p.apply(this._arrangePage, arguments);
 	}
 
 });
 
 	
-var Text = BaseEl.extend({
+FPDF.Text = FPDF.Span = FPDF.BaseEl.extend({
 	_name:'Text',
 	inner:function(content){
 		this.content = content;
@@ -1017,9 +1025,9 @@ var Text = BaseEl.extend({
 	}
 });
 
-var Textline = BaseEl.extend({
+FPDF.Textline = FPDF.BaseEl.extend({
 	_name:'Textline',
-	render:function(text, left, top, width) {
+	render:function() {
 		var text = this.text;
 		var left = this.parent.left();
 		var top = this.parent.top();
@@ -1048,10 +1056,10 @@ var Textline = BaseEl.extend({
 	__doNotSplit:true
 });
 
-var Flexbox = Div.extend({
+FPDF.Flexbox = FPDF.Div.extend({
 	_name:'Flexbox',
 	constructor:function(){
-		BaseEl.prototype.constructor.apply(this, arguments);
+		FPDF.BaseEl.prototype.constructor.apply(this, arguments);
 	},
 	afterRender:function(){
 		this.parent.c.y += this.outerHeight();
@@ -1065,18 +1073,18 @@ var Flexbox = Div.extend({
 		}
 	},
 	_transFormElToFlexrow:function(el){
-		el.width = Flexrow.prototype.width;
-		el.afterRender = Flexrow.prototype.afterRender;
+		el.width = FPDF.Flexrow.prototype.width;
+		el.afterRender = FPDF.Flexrow.prototype.afterRender;
 		el.styles.margin = 0;
 	},
 	append:function(el) {
 		this._transFormElToFlexrow(el);
-		BaseEl.prototype.append.call(this, el);
+		FPDF.BaseEl.prototype.append.call(this, el);
 		return this;
 	},
 	prepend:function(el) {
 		this._transFormElToFlexrow(el);
-		BaseEl.prototype.prepend.call(this, el);
+		FPDF.BaseEl.prototype.prepend.call(this, el);
 		return this;
 	},
 	_childWidthEvenly:function(){
@@ -1085,7 +1093,7 @@ var Flexbox = Div.extend({
 	__doNotSplit:true
 });
 
-var Flexrow = Div.extend({
+FPDF.Flexrow = FPDF.Div.extend({
 	_name:'Flexrow',
 	width:function(){
 		var width=0;
@@ -1126,7 +1134,7 @@ var Flexrow = Div.extend({
 
 
 /* EXPERIMENTAL */
-var Img = Div.extend({
+FPDF.Img = FPDF.Div.extend({
 	_name:'Img',
 	render:function(){
 		Div.prototype.render.apply(this);
@@ -1169,11 +1177,6 @@ var Img = Div.extend({
 });
 
 
-	var FPDF = function(selector){
-		if(typeof selector === 'string' && selector.length > 0) {
-			return FPDF.el(selector);
-		}
-	};
 
 	FPDF.el = function(elName){
 		elName = ''+elName.toLowerCase();
@@ -1185,14 +1188,6 @@ var Img = Div.extend({
 			err('Cannot create element `' + elName + '`');
 		}
 	};
-
-	FPDF.Doc		= Doc;
-	FPDF.Div		= Div;
-	FPDF.Text		= FPDF.Span = Text;
-	FPDF.Textline	= Textline;
-	FPDF.Flexbox	= Flexbox;
-	FPDF.Img		= Img;
-	FPDF.Page		= Page;
 
 	return FPDF;
 }));

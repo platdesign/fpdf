@@ -1,6 +1,6 @@
-var Textline = BaseEl.extend({
+FPDF.Textline = FPDF.BaseEl.extend({
 	_name:'Textline',
-	render:function(text, left, top, width) {
+	render:function() {
 		var text = this.text;
 		var left = this.parent.left();
 		var top = this.parent.top();

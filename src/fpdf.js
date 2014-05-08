@@ -20,6 +20,14 @@
 
 }(this, function () {
 	
+	
+
+	var FPDF = function(selector){
+		if(typeof selector === 'string' && selector.length > 0) {
+			return FPDF.el(selector);
+		}
+	};
+
 	//= include parts/helper.js
 
 	//= include parts/Children.js
@@ -36,11 +44,6 @@
 	//= include parts/FlexRow.js
 	//= include parts/Img.js
 
-	var FPDF = function(selector){
-		if(typeof selector === 'string' && selector.length > 0) {
-			return FPDF.el(selector);
-		}
-	};
 
 	FPDF.el = function(elName){
 		elName = ''+elName.toLowerCase();
@@ -52,14 +55,6 @@
 			err('Cannot create element `' + elName + '`');
 		}
 	};
-
-	FPDF.Doc		= Doc;
-	FPDF.Div		= Div;
-	FPDF.Text		= FPDF.Span = Text;
-	FPDF.Textline	= Textline;
-	FPDF.Flexbox	= Flexbox;
-	FPDF.Img		= Img;
-	FPDF.Page		= Page;
 
 	return FPDF;
 }));

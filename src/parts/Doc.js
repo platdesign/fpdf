@@ -1,4 +1,4 @@
-var Doc = stdClass.extend({
+FPDF.Doc = stdClass.extend({
 	constructor:function(options){
 		options = options || {format:'a4',orientation:'portrait',unit:'mm'};
 		this.doc = this;
@@ -33,7 +33,7 @@ var Doc = stdClass.extend({
 		this._properties = {};
 	},
 	initialize:function(){},
-	Page:Page,
+	Page:FPDF.Page,
 
 	_process:function(){
 		for(var n in this.pages) {
@@ -59,7 +59,7 @@ var Doc = stdClass.extend({
 
 		} else {
 			page.index = 1;
-			page.setParent(this)
+			page.setParent(this);
 			page.initializeHeaderAndFooter();
 			this.pages.push(page);
 		}
@@ -314,10 +314,10 @@ var Doc = stdClass.extend({
 
 
 	_m:function(index){
-		return BaseEl.prototype._m.apply(this._arrangePage, arguments);
+		return FPDF.BaseEl.prototype._m.apply(this._arrangePage, arguments);
 	},
 	_p:function(index){
-		return BaseEl.prototype._p.apply(this._arrangePage, arguments);
+		return FPDF.BaseEl.prototype._p.apply(this._arrangePage, arguments);
 	}
 
 });
