@@ -34,20 +34,31 @@
 		doc.append(
 			FPDF('div').text(lorem)
 			.css({
-				position:'absolute',
+			//	position:'absolute',
 				background:'eaeaea',
 				padding:10,
-				right:0,
-				margin:0,
+				//left:"5%",
+				right:10,
+				margin:10,
 				width:100,
-				top:0
+				//top:0
+			})
+		)
+		doc.append(
+			FPDF('div').text(lorem)
+			.css({
+				background:'eaeaea',
+				padding:10,
+				right:"2",
+				margin:0,
+				width:"45%"
 			})
 		)
 		
-		doc.prepend(
+		doc.append(
 			FPDF('div').text(lorem)
 			.css({
-				
+				marginTop:10
 			})
 		)
 		

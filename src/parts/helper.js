@@ -71,3 +71,17 @@ var initiator = function(el) {
 		return new el();
 	};
 };
+
+
+
+var parseValue = function(value, full, context) {
+	
+	if(typeof value === 'string') {
+		return parseFloat(value)/100 * full.call(context);
+	} else {
+		return value;
+	}
+};
+
+
+

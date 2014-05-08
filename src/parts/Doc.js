@@ -310,6 +310,14 @@ var Doc = stdClass.extend({
 	},
 	creator:function(val) {
 		this._properties.creator = val;
+	},
+
+
+	_m:function(index){
+		return BaseEl.prototype._m.apply(this._arrangePage, arguments);
+	},
+	_p:function(index){
+		return BaseEl.prototype._p.apply(this._arrangePage, arguments);
 	}
 
 });

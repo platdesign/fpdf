@@ -78,7 +78,7 @@ var BaseEl = stdClass.extend({
 		css4vals('margin');
 		css4vals('padding');
 
-		sanitizeColor = function(key) {
+		var sanitizeColor = function(key) {
 			var val = styles[key];
 
 			if(typeof val === 'string') {
@@ -95,7 +95,9 @@ var BaseEl = stdClass.extend({
 		sanitizeColor('color');
 		sanitizeColor('background');
 		sanitizeColor('borderColor');
+
 	},
+	
 	process:function(){
 
 	},
@@ -155,36 +157,67 @@ var BaseEl = stdClass.extend({
 	},
 
 	_m:function(index){
-		if(this.styles.margin)
-			return this.styles.margin[index] || 0;
 
-		return 0;
+		var v = this.styles.margin;
+
+		var r = 0;
+
+		if(v) {
+			for(var n in arguments) {
+				var index = arguments[n];
+				r += v[index] || 0;
+			}
+		}
+		
+		return r;
 	},
 	_p:function(index){
-		if(this.styles.padding!==undefined)
-			return this.styles.padding[index] || 0;
+		var v = this.styles.padding;
 
-		return 0;
+		var r = 0;
+
+		if(v) {
+			for(var n in arguments) {
+				var index = arguments[n];
+				r += v[index] || 0;
+			}
+		}
+		
+		return r;
 	},
 
+	__positioningContext:function(){
+		var pos = this.styles.position;
 
+		if(pos === 'absolute') {
+			return this.doc;
+		} else if(pos === 'static' || pos === undefined) {
+			return this.parent;
+		}
+	},
 
 	width:function(){
-		if(this.styles.width) {
-			return this.styles.width - this._m(1) - this._m(3);
+		var s = this.styles;
+		var context = this.__positioningContext();
+
+		if(s.width!==undefined) {
+			return parseValue(s.width, context.width) - this._m(1, 3);
 		} else {
-			return this.parent.innerWidth() - this._m(1) - this._m(3);
+			return context.innerWidth() - this._m(1, 3);
 		}
 	},
 	outerWidth:function(){
 		return this.width();
 	},
 	innerWidth:function(){
-		return this.width() - this._p(1) - this._p(3);
+		return this.width() - this._p(1, 3);
 	},
 	innerHeight:function(){
-		if(this.styles.height!==undefined){
-			return this.styles.height;
+		var s = this.styles;
+		var context = this.__positioningContext();
+
+		if(s.height!==undefined){
+			return parseValue(s.height, context.height, context);
 		} else {
 			return this.children.height();
 		}
@@ -199,24 +232,33 @@ var BaseEl = stdClass.extend({
 		var s = this.styles;
 		var left = 0;
 
+		var context = this.__positioningContext();
+
 		if(s.left!==undefined) {
-			left += s.left;
+			left = parseValue(s.left, context.width, context);
 		} else {
 			if(s.right!==undefined) {
-				left += this.doc.width() - s.right - this.outerWidth();
+				left = context.width() - parseValue(s.right, context.width, context) - this.outerWidth() - this._m(3,3);
 			} else {
-				left += this.parent.left() + this.parent._p(3);
+				left = context.left() + context._p(3);
 			}
 		}
 
 		return this.c.x + left + this._m(3);
 	},
 	top:function(){
-		if(this.styles.top!==undefined){
-			return this.c.y + this.styles.top + this._m(0);
+		var s = this.styles;
+		var top = 0;
+
+		var context = this.__positioningContext();
+		
+		if(s.top!==undefined){
+			top = parseValue(s.top, context.height, context);
 		} else {
-			return this.c.y + this.parent.top() + this.parent._p(0) + this._m(0);
+			top = this.parent.top() + context._p(0);
 		}
+
+		return this.c.y + top + this._m(0);
 	},
 
 	__createCloneForSplitting:function(){
