@@ -3,14 +3,23 @@
  * https://github.com/platdesign/fpdf
  *
  * @author Christian Blaschke - @platdesign - mail@platdesign.de
- * @version 0.0.1
+ * @version 0.1.0
  */
 
+(function (root, factory) {
 
+	var moduleName = 'FPDF';
 
-(function(window){
-	var name = 'FPDF';
+	if (typeof define === 'function' && define.amd) {
+		define([moduleName], factory);
+	} else if (typeof exports === 'object') {
+		module.exports = factory();
+	} else {
+		root[moduleName] = factory();
+	}
 
+}(this, function () {
+	
 	//= include parts/helper.js
 
 	//= include parts/Children.js
@@ -20,17 +29,14 @@
 	
 	//= include parts/Page.js
 	//= include parts/Doc.js
-
 	
 	//= include parts/Text.js
 	//= include parts/Textline.js
 	//= include parts/Flexbox.js
 	//= include parts/FlexRow.js
 	//= include parts/Img.js
-	
 
-
-	var FPDF = window[name] = function(selector){
+	var FPDF = function(selector){
 		if(typeof selector === 'string' && selector.length > 0) {
 			return FPDF.el(selector);
 		}
@@ -55,4 +61,6 @@
 	FPDF.Img		= Img;
 	FPDF.Page		= Page;
 
-}(window));
+	return FPDF;
+}));
+
