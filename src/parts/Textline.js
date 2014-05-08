@@ -23,5 +23,8 @@ var Textline = BaseEl.extend({
 	height:function(){
 		return this.parent.lh();
 	},
+	afterRender:function(){
+		this.parent.c.y += this.outerHeight();
+	},
 	__doNotSplit:true
 });

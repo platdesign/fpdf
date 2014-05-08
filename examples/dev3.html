@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>FPDF.js - DEMO</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="description" content="Demo project">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+		<script type="text/javascript" src="../vendor/stdClass/stdClass.js"></script>
+		<script type="text/javascript" src="../vendor/jspdf/dist/jspdf.min.js"></script>
+		<script src="../dist/fpdf.js"></script>
+		
+	</head>
+	<body>
+		
+		<iframe id="test" width="100%" height="880px"></iframe>
+
+	</body>
+	<script type="text/javascript">
+		var iframe = document.getElementById('test');
+
+
+		var lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+
+		var doc = new FPDF.Doc();
+
+		doc.css({
+			padding: 10
+		});
+
+		doc.append(
+			FPDF('div').text(lorem)
+			.css({
+				position:'absolute',
+				background:'eaeaea',
+				padding:10,
+				right:0,
+				margin:0,
+				width:100,
+				top:0
+			})
+		)
+		
+		doc.prepend(
+			FPDF('div').text(lorem)
+			.css({
+				
+			})
+		)
+		
+
+		iframe.src = doc.toDataUri();
+		
+
+
+		
+
+		
+	</script>
+</html>

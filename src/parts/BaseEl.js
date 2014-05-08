@@ -117,7 +117,7 @@ var BaseEl = stdClass.extend({
 
 	},
 	afterRender:function(){
-		if(this.styles.top === undefined) {
+		if(this.styles.position !== 'absolute') {
 			this.parent.c.y += this.outerHeight();
 		}
 	},
@@ -196,11 +196,20 @@ var BaseEl = stdClass.extend({
 		return this.height() + this._m(0) + this._m(2);
 	},
 	left:function(){
-		if(this.styles.left!==undefined){
-			return this.c.x + this.styles.left + this._m(3);
+		var s = this.styles;
+		var left = 0;
+
+		if(s.left!==undefined) {
+			left += s.left;
 		} else {
-			return this.c.x + this.parent.left() + this.parent._p(3) + this._m(3);
+			if(s.right!==undefined) {
+				left += this.doc.width() - s.right - this.outerWidth();
+			} else {
+				left += this.parent.left() + this.parent._p(3);
+			}
 		}
+
+		return this.c.x + left + this._m(3);
 	},
 	top:function(){
 		if(this.styles.top!==undefined){

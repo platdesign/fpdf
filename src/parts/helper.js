@@ -56,10 +56,12 @@ var inheritStyles = function(styles, parentStyles) {
 	ps.padding = [0,0,0,0];
 	ps.borderRadius = 0;
 	ps.borderWidth = 0;
+	ps.position = 'static';
 
 	delete(ps.width);
 	delete(ps.left);
 	delete(ps.top);
+	delete(ps.right);
 
 	return clone(ps, styles);
 };

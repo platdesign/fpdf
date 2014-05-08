@@ -70,10 +70,12 @@ var inheritStyles = function(styles, parentStyles) {
 	ps.padding = [0,0,0,0];
 	ps.borderRadius = 0;
 	ps.borderWidth = 0;
+	ps.position = 'static';
 
 	delete(ps.width);
 	delete(ps.left);
 	delete(ps.top);
+	delete(ps.right);
 
 	return clone(ps, styles);
 };
@@ -256,7 +258,7 @@ var BaseEl = stdClass.extend({
 
 	},
 	afterRender:function(){
-		if(this.styles.top === undefined) {
+		if(this.styles.position !== 'absolute') {
 			this.parent.c.y += this.outerHeight();
 		}
 	},
@@ -335,11 +337,20 @@ var BaseEl = stdClass.extend({
 		return this.height() + this._m(0) + this._m(2);
 	},
 	left:function(){
-		if(this.styles.left!==undefined){
-			return this.c.x + this.styles.left + this._m(3);
+		var s = this.styles;
+		var left = 0;
+
+		if(s.left!==undefined) {
+			left += s.left;
 		} else {
-			return this.c.x + this.parent.left() + this.parent._p(3) + this._m(3);
+			if(s.right!==undefined) {
+				left += this.doc.width() - s.right - this.outerWidth();
+			} else {
+				left += this.parent.left() + this.parent._p(3);
+			}
 		}
+
+		return this.c.x + left + this._m(3);
 	},
 	top:function(){
 		if(this.styles.top!==undefined){
@@ -959,6 +970,9 @@ var Textline = BaseEl.extend({
 	height:function(){
 		return this.parent.lh();
 	},
+	afterRender:function(){
+		this.parent.c.y += this.outerHeight();
+	},
 	__doNotSplit:true
 });
 
@@ -1110,14 +1124,4 @@ var Img = Div.extend({
 	FPDF.Img		= Img;
 	FPDF.Page		= Page;
 
-/*
-	var FPDF = window[name] = {
-		Doc : 		Doc,
-		Div : 		initiator(Div),
-		Text: 		initiator(Text),
-		Flexbox: 	initiator(Flexbox),
-		Img: 		initiator(Img),
-		Page: 		Page
-	};
-*/
 }(window));

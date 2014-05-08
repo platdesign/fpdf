@@ -55,14 +55,4 @@
 	FPDF.Img		= Img;
 	FPDF.Page		= Page;
 
-/*
-	var FPDF = window[name] = {
-		Doc : 		Doc,
-		Div : 		initiator(Div),
-		Text: 		initiator(Text),
-		Flexbox: 	initiator(Flexbox),
-		Img: 		initiator(Img),
-		Page: 		Page
-	};
-*/
 }(window));
