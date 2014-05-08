@@ -489,10 +489,11 @@ var Page = BaseEl.extend({
 	},
 	__createCloneForSplitting:function(){
 		var w = new this.doc.Page(this.doc);
-			w.initializeHeaderAndFooter();
 			w.styles = clone(this.styles);
+			w.initializeHeaderAndFooter();
 		return w;
 	},
+
 	render:function(){
 		this._footer.setParent(this)._process()._render();
 		this._header.setParent(this)._process()._render();
@@ -549,8 +550,6 @@ var Doc = stdClass.extend({
 			padding:[0,0,0,0]
 		};
 
-		//this.pages = [];
-		//this.addPage(true);
 
 		this.initialize.apply(this, arguments);	
 
@@ -582,12 +581,13 @@ var Doc = stdClass.extend({
 			for(var n in pages) {
 				var p = pages[n];
 				p.setParent(this);
-				//p._doc = this;
 				this.pages.push(p);
 			}
 
 		} else {
-			this.pages = [page];
+			page.setParent(this)
+			page.initializeHeaderAndFooter();
+			this.pages.push(page);
 		}
 
 	},
@@ -811,6 +811,9 @@ var Doc = stdClass.extend({
 	},
 	prepend:function(el){
 		this._arrangePage.prepend(el);
+	},
+	css:function(styles){
+		this._arrangePage.css(styles);
 	}
 
 

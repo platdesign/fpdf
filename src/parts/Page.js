@@ -31,10 +31,11 @@ var Page = BaseEl.extend({
 	},
 	__createCloneForSplitting:function(){
 		var w = new this.doc.Page(this.doc);
-			w.initializeHeaderAndFooter();
 			w.styles = clone(this.styles);
+			w.initializeHeaderAndFooter();
 		return w;
 	},
+
 	render:function(){
 		this._footer.setParent(this)._process()._render();
 		this._header.setParent(this)._process()._render();
