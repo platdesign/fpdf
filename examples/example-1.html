@@ -30,38 +30,34 @@
 
 		var MyDoc = FPDF.Doc.extend({
 			Page: FPDF.Page.extend({
-				initialize:function(){
-					this.css({
-						padding:[30,18,20,24],
-						lineHeight:1.4
-					})
+				defaultCss:{
+					padding:[30,18,20,24],
+					lineHeight:1.4
 				},
 				header:function(){
-					this.append(
-						FPDF.Div()
-						.css({
+					this.css({
 							top:15,
 							fontSize:8,
 							textAlign:'right'
 						})
-						.text(Date)
-					);
+						.text(Date);
 				},
 				footer:function(){
-					var page = this.parent;
+					var header = this;
 
-					this.append(
-						FPDF.Div()
-						.css({
+					this.css({
 							top:280,
 							fontSize:10,
 							padding:1,
 							textAlign:'center'
 						})
 						.text(function(){
-							return 'Seite ' + page.index + ' von ' + this.doc.pages.length;
+							return 'Seite ' +
+								header.pageIndex() + 
+								' von ' + 
+								header.pageCount()
 						})
-					);
+						
 				}
 			})
 		});
@@ -70,11 +66,11 @@
 
 		var doc = new MyDoc();
 
-		c(doc._doc)
-		
-		FPDF.Div().appendTo(doc.page())
+		doc.author('Christian Blaschke');
+
+		FPDF('div').appendTo(doc)
 		.append(
-			FPDF.Div()
+			FPDF('div')
 			.text(lorem.substr(0,45))
 			.css({
 				fontSize:40,
@@ -86,7 +82,7 @@
 			})
 		)
 		.append(
-			FPDF.Div()
+			FPDF('div')
 			.text(lorem.substr(0,199) + '.')
 			.css({
 				fontStyle:'bold',
@@ -95,18 +91,18 @@
 			})
 		)
 		.append(
-			FPDF.Div()
+			FPDF('div')
 			.css({
 				marginTop:10
 			})
 			.append(
-				FPDF.Flexbox()
+				FPDF('flexbox')
 				.append(
-					FPDF.Div()
+					FPDF('div')
 					.text(lorem)
 				)
 				.append(
-					FPDF.Div().text(lorem.substr(0,230))
+					FPDF('div').text(lorem.substr(0,230))
 					.css({
 						padding:5,
 						marginLeft:8,
@@ -120,7 +116,55 @@
 			)
 		)
 		.append(
-			FPDF.Div()
+			FPDF('div')
+			.css({
+				marginTop:5
+			})
+			.text(lorem)
+		)
+
+		
+
+
+		FPDF('div').appendTo(doc)
+		
+		.append(
+			FPDF('div')
+			.text(lorem)
+			.css({
+				fontStyle:'bold',
+				fontSize: 16,
+				color:'666666'
+			})
+			.preventSplitting()
+		)
+		.append(
+			FPDF('div')
+			.css({
+				marginTop:10
+			})
+			.append(
+				FPDF('flexbox')
+				.append(
+					FPDF('div')
+					.text(lorem)
+				)
+				.append(
+					FPDF('div').text(lorem.substr(0,230))
+					.css({
+						padding:5,
+						marginLeft:8,
+						background:'08a0e4',
+						color:'#fff',
+						fontStyle:'italic',
+						textAlign:'center',
+						borderRadius:1.4
+					})
+				)
+			)
+		)
+		.append(
+			FPDF('div')
 			.css({
 				marginTop:5
 			})
@@ -128,7 +172,7 @@
 		)
 
 		.append(
-			FPDF.Div()
+			FPDF('div')
 			.css({
 				marginTop:5,
 				borderWidth:.3,
@@ -141,7 +185,7 @@
 			})
 			.text(lorem)
 			.prepend(
-				FPDF.Div().text('Lorem').css({
+				FPDF('div').text('Lorem').css({
 					fontSize:15,
 					textAlign:'center',
 					fontStyle:'bolditalic',
@@ -150,10 +194,29 @@
 				})
 			)
 		)
-
-
-
-
+		.append(
+			FPDF('div')
+			.css({
+				marginTop:5,
+				borderWidth:.3,
+				borderColor:'666',
+				padding:[5,10,8,10],
+				borderRadius:1,
+				fontSize:9,
+				background:'eaeaea',
+				lineHeight:1.8
+			})
+			.text(lorem)
+			.prepend(
+				FPDF('div').text('Lorem').css({
+					fontSize:15,
+					textAlign:'center',
+					fontStyle:'bolditalic',
+					marginBottom:2,
+					color:'666'
+				})
+			).preventSplitting()
+		)
 		
 
 		iframe.src = doc.toDataUri();

@@ -25,12 +25,12 @@
 
 		var doc = new FPDF.Doc();
 
-		doc.page().css({
+		doc.css({
 			padding:20
 		});
 
-		FPDF.Div()
-			.appendTo(doc.page())
+		FPDF('div')
+			.appendTo(doc)
 			.text('Hello World')
 			.css({
 				fontSize:20,
