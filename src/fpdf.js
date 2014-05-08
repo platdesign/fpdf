@@ -16,10 +16,12 @@
 	//= include parts/Children.js
 
 	//= include parts/BaseEl.js
+	//= include parts/Div.js
+	
 	//= include parts/Page.js
 	//= include parts/Doc.js
 
-	//= include parts/Div.js
+	
 	//= include parts/Text.js
 	//= include parts/Textline.js
 	//= include parts/Flexbox.js

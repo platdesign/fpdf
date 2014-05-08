@@ -303,6 +303,10 @@ var BaseEl = stdClass.extend({
 
 		
 		return els;
+	},
+	preventSplitting:function(){
+		this.__doNotSplit = true;
+		return this;
 	}
 
 

@@ -442,6 +442,10 @@ var BaseEl = stdClass.extend({
 
 		
 		return els;
+	},
+	preventSplitting:function(){
+		this.__doNotSplit = true;
+		return this;
 	}
 
 
@@ -456,6 +460,45 @@ var BaseEl = stdClass.extend({
 
 
 
+var Div = BaseEl.extend({
+	_name:'div',
+	render:function(){
+		var flag;
+		if(this.doc.styles.background!==null) {
+			if(this.styles.borderWidth > 0) {
+				flag = 'FD';
+			} else {
+				flag = 'F';
+			}
+		} else {
+			if(this.styles.borderWidth > 0) {
+				flag = 'S';
+			} else {
+				flag = null;
+			}
+		}
+
+		if(this.innerHeight()>0) {
+			if(this.styles.borderWidth>0 || this.doc.styles.background!==null) {
+				this.doc._doc.roundedRect(this.left(),this.top(),this.width(),this.height(),this.styles.borderRadius,this.styles.borderRadius,flag);
+			}
+		}
+		
+		
+	},
+
+	text:function(text){
+		if(!this._text) {
+			this._text = FPDF.el('text').appendTo(this).inner(text);
+		} else {
+			this._text.inner(text);
+		}
+		
+		return this;
+	}
+});
+
+	
 var Page = BaseEl.extend({
 	_name:'Page',
 	constructor:function(doc){
@@ -475,8 +518,8 @@ var Page = BaseEl.extend({
 
 	initializeHeaderAndFooter:function(){
 		
-		this._header = FPDF('div');
-		this._footer = FPDF('div');
+		this._header = new HeaderFooter();
+		this._footer = new HeaderFooter();
 
 		this._header.afterRender = this._footer.afterRender = function(){
 			this.parent.c.y = 0;
@@ -526,6 +569,18 @@ var Page = BaseEl.extend({
 
 });
 
+
+
+
+var HeaderFooter = Div.extend({
+	pageIndex:function(){
+		return this.parent.index+1;
+	},
+	pageCount:function(){
+		return this.parent.doc.pages.length;
+	}
+});
+
 var Doc = stdClass.extend({
 	constructor:function(options){
 		options = options || {format:'a4',orientation:'portrait',unit:'mm'};
@@ -558,7 +613,7 @@ var Doc = stdClass.extend({
     	});
     	
 		this._arrangePage = this._createArrangePage();
-
+		this._properties = {};
 	},
 	initialize:function(){},
 	Page:Page,
@@ -581,10 +636,12 @@ var Doc = stdClass.extend({
 			for(var n in pages) {
 				var p = pages[n];
 				p.setParent(this);
+				p.index = n*1;
 				this.pages.push(p);
 			}
 
 		} else {
+			page.index = 1;
 			page.setParent(this)
 			page.initializeHeaderAndFooter();
 			this.pages.push(page);
@@ -610,6 +667,8 @@ var Doc = stdClass.extend({
 			this.c.y = 0;
 		}
 		
+		this._doc.setProperties(this._properties);
+
 	},
 
 	_page:function(index) {
@@ -814,50 +873,32 @@ var Doc = stdClass.extend({
 	},
 	css:function(styles){
 		this._arrangePage.css(styles);
-	}
-
-
-});
-
-
-var Div = BaseEl.extend({
-	_name:'div',
-	render:function(){
-		var flag;
-		if(this.doc.styles.background!==null) {
-			if(this.styles.borderWidth > 0) {
-				flag = 'FD';
-			} else {
-				flag = 'F';
-			}
-		} else {
-			if(this.styles.borderWidth > 0) {
-				flag = 'S';
-			} else {
-				flag = null;
-			}
-		}
-
-		if(this.innerHeight()>0) {
-			if(this.styles.borderWidth>0 || this.doc.styles.background!==null) {
-				this.doc._doc.roundedRect(this.left(),this.top(),this.width(),this.height(),this.styles.borderRadius,this.styles.borderRadius,flag);
-			}
-		}
-		
-		
 	},
 
-	text:function(text){
-		if(!this._text) {
-			this._text = FPDF.el('text').appendTo(this).inner(text);
-		} else {
-			this._text.inner(text);
-		}
-		
-		return this;
+
+
+
+
+	author:function(val) {
+		this._properties.author = val;
+	},
+	title:function(val) {
+		this._properties.title = val;
+	},
+	subject:function(val) {
+		this._properties.subject = val;
+	},
+	keywords:function(val) {
+		this._properties.keywords = val;
+	},
+	creator:function(val) {
+		this._properties.creator = val;
 	}
+
 });
 
+
+	
 var Text = BaseEl.extend({
 	_name:'Text',
 	inner:function(content){

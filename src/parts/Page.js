@@ -17,8 +17,8 @@ var Page = BaseEl.extend({
 
 	initializeHeaderAndFooter:function(){
 		
-		this._header = FPDF('div');
-		this._footer = FPDF('div');
+		this._header = new HeaderFooter();
+		this._footer = new HeaderFooter();
 
 		this._header.afterRender = this._footer.afterRender = function(){
 			this.parent.c.y = 0;
@@ -66,4 +66,16 @@ var Page = BaseEl.extend({
 
 	}
 
+});
+
+
+
+
+var HeaderFooter = Div.extend({
+	pageIndex:function(){
+		return this.parent.index+1;
+	},
+	pageCount:function(){
+		return this.parent.doc.pages.length;
+	}
 });

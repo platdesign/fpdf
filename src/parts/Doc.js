@@ -30,7 +30,7 @@ var Doc = stdClass.extend({
     	});
     	
 		this._arrangePage = this._createArrangePage();
-
+		this._properties = {};
 	},
 	initialize:function(){},
 	Page:Page,
@@ -53,10 +53,12 @@ var Doc = stdClass.extend({
 			for(var n in pages) {
 				var p = pages[n];
 				p.setParent(this);
+				p.index = n*1;
 				this.pages.push(p);
 			}
 
 		} else {
+			page.index = 1;
 			page.setParent(this)
 			page.initializeHeaderAndFooter();
 			this.pages.push(page);
@@ -82,6 +84,8 @@ var Doc = stdClass.extend({
 			this.c.y = 0;
 		}
 		
+		this._doc.setProperties(this._properties);
+
 	},
 
 	_page:function(index) {
@@ -286,7 +290,26 @@ var Doc = stdClass.extend({
 	},
 	css:function(styles){
 		this._arrangePage.css(styles);
-	}
+	},
 
+
+
+
+
+	author:function(val) {
+		this._properties.author = val;
+	},
+	title:function(val) {
+		this._properties.title = val;
+	},
+	subject:function(val) {
+		this._properties.subject = val;
+	},
+	keywords:function(val) {
+		this._properties.keywords = val;
+	},
+	creator:function(val) {
+		this._properties.creator = val;
+	}
 
 });
