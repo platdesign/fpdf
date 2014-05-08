@@ -14,7 +14,7 @@ Create PDF-Files with Javascript in the Browser.
 		<script src="vendor/stdClass/stdClass.js"></script>
 		<script src="vendor/fpdf/dist/fpdf.min.js"></script>
 
-3. Start creating PDF-Files in the Browser or read the [Docs]() [Coming soon] first... ;)
+3. Start creating PDF-Files in the Browser or read the [Docs](docs/FPDF.md) [Coming soon] first... ;)
 
 
 ##Dependencies
