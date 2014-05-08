@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>FPDF.js - DEMO</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="description" content="Demo project">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<script src="../../dist/fpdf.bundled.js"></script>
+		<script src="../../src/doctypes/din5008a.js"></script>
+	</head>
+	<body>
+		
+	<iframe id="test" width="100%" height="880px"></iframe>
+
+
+
+
+	</body>
+	<script type="text/javascript">
+
+		var iframe = document.getElementById('test');
+
+		
+		var PD = FPDF.Doctypes.din5008a.extend({
+			stationery:function(){
+
+				this.append(
+					FPDF('div')
+					.text("Platdesign")
+					.css({
+						position:'absolute',
+						top:0,
+						left:0,
+						padding: 5,
+						fontSize:15,
+						fontStyle:'italic',
+						color:'eaeaea',
+						background:999,
+						textAlign:'center'
+					})
+				);
+			}
+		});
+
+		var doc = new PD({ scale:1 });
+
+		doc.css({
+
+		})
+
+		doc.setSender({
+			company:{
+				name:'MyService'
+			},
+			firstname:'Peter',
+			lastname:'Pan',
+			street:'Blumenweg 13',
+			zip:51234,
+			city:'Irgendwo'
+		});
+
+		doc.setReceiver({
+			firstname:'Regina',
+			lastname:'Regenbogen',
+			street:'Wolkenstraße 53',
+			zip:44321,
+			city:'Einestadt'
+		});
+
+		var lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+
+		doc.append(
+			FPDF('div').text(lorem + lorem + lorem + lorem + '\n\n\n' + lorem+ lorem+ lorem+ lorem)
+		)
+
+		iframe.src = doc.toDataUri();
+		
+
+		
+	</script>
+</html>

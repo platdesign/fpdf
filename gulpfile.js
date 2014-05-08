@@ -35,10 +35,20 @@ gulp.task('dev', function(){
 			
 			.pipe( gulp.dest('./dist') );
 
+
+
+
+
+
+
+			
+
 		}) )
 		.pipe( jshint() )
 		.pipe( jshint.reporter(stylish) );
 	
+
+
 });
 
 
