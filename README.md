@@ -10,9 +10,11 @@ Create PDF-Files with Javascript in the Browser.
  	- `git clone https://github.com/platdesign/fpdf.git`
 2. Embed it into your HTML
 		
+		<script src="vendor/jspdf/dist/jspdf.min.js"></script>
+		<script src="vendor/stdClass/stdClass.js"></script>
 		<script src="vendor/fpdf/dist/fpdf.min.js"></script>
 
-3. Start creating PDF-Files in the Browser or read the [Docs]() first... ;)
+3. Start creating PDF-Files in the Browser or read the [Docs]() [Coming soon] first... ;)
 
 
 ##Dependencies
@@ -30,12 +32,12 @@ If you install FPDF.js with `Bower` the dependencies will be installed automatic
 
 	var doc = new FPDF.Doc();
 
-	doc.page().css({
+	doc.css({
 		padding:20
 	});
 
-	FPDF.Div()
-		.appendTo(doc.page())
+	FPDF('div')
+		.appendTo(doc)
 		.text("Hello World")
 		.css({
 			fontSize:20,
@@ -43,9 +45,6 @@ If you install FPDF.js with `Bower` the dependencies will be installed automatic
 		});
 
 	doc.save('Hello-World');
-
-
-
 
 
 ##Browser Support
