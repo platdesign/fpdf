@@ -29,6 +29,24 @@ You can create your own document types which inherit from their parents.
 	
 Each page in this document will have a 'Header' in the top.
 
+Inside of `header`-, `footer`-method in `Page`, the `this`-statement points to their respective `FPDF('div')`-instance. 
+
+**Helper functions inside of `header` and `footer`** (on `this`) 		
+
+- this.**pageIndex()**	
+	Returns the index of the current page.	
+- this.**pageCount()**	
+	Returns the total number of pages in the document.
+
+*They will only work in a closure!*
+	
+	// For example inside the header-method of a Page
+	header.text(function(){
+		return header.pageIndex() + ' / ' + header.pageCount();
+	});
+
+
+
 ###Instance Methods
 - **css(** *(object)* **styles)**		
 Sets style properties for the whole document. Each element in this document will inherit theese values excluding margin, padding, etc. (similar like in HTML/CSS)
@@ -45,6 +63,18 @@ Appends an Element to the document. (The same way you know it form jQuery.)
 
 - **save(** *(String)* **Filename)**
 	Renders the PDF-File and starts a download. Useful for download buttons. :-P
+
+- **title(** *(String)* **Value)**	
+	Sets the documents title.
+	
+- **subject(** *(String)* **Value)**	
+	Sets a subject to the document.
+
+- **keywords(** *(String)* **Value)**	
+	Adds keywords.
+	
+- **creator(** *(String)* **Value)**	
+	Sets the creator. (e.g. The name of your application.)
 
 
 ####Example for instance Methods
