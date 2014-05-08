@@ -30,20 +30,20 @@ You can create your own document types which inherit from their parents.
 Each page in this document will have a 'Header' in the top.
 
 ###Instance Methods
-- **css(** *(object)* ** styles )**		
+- **css(** *(object)* **styles)**		
 Sets style properties for the whole document. Each element in this document will inherit theese values excluding margin, padding, etc. (similar like in HTML/CSS)
 	
 	
-- **append(** *(PFDF-Element)* ** Element )**		
+- **append(** *(PFDF-Element)* **Element)**		
 Appends an Element to the document. (The same way you know it form jQuery.)
 
 	
-- **prepend(** *(PFDF-Element)* ** Element )**		Also equal to jQuerys `prepend`. Adds the given element at the beginning of the document.
+- **prepend(** *(PFDF-Element)* **Element)**		Also equal to jQuerys `prepend`. Adds the given element at the beginning of the document.
 
 - **toDataUri()**		
 	Returns a Data-URI of the rendered PDF-File. Useful for previews in iframes. ;)
 
-- **save(** *(String)* ** Filename )**
+- **save(** *(String)* **Filename)**
 	Renders the PDF-File and starts a download. Useful for download buttons. :-P
 
 
