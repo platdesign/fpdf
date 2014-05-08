@@ -4,7 +4,7 @@
 
 ##Doc
 
-###Creating a new PDF-Document
+###Creating a FPDF-Document
 
 	var doc = new FPDF.Doc();
 
@@ -47,7 +47,7 @@ Inside of `header`-, `footer`-method in `Page`, the `this`-statement points to t
 
 
 
-###Instance Methods
+###Instance methods
 - **css(** *(object)* **styles)**		
 Sets style properties for the whole document. Each element in this document will inherit theese values excluding margin, padding, etc. (similar like in HTML/CSS)
 	
@@ -77,7 +77,7 @@ Appends an Element to the document. (The same way you know it form jQuery.)
 	Sets the creator. (e.g. The name of your application.)
 
 
-####Example for instance Methods
+####Example for using instance methods of doc
 
 	// Create the instance
 	var doc = new FPDF.Doc();
@@ -116,7 +116,7 @@ Creating elements is done with: `FPDF('div')` e.g.
 Like seen in the top `FPDF('div')` has a `text()`-method. with this you can set Text to your document. But you can also add other elements with `append( element )`.
 
 	
-###FPDF('Flexbox') 
+###FPDF('flexbox') 
 Each element you add to a `FPDF('Flexbox')` will be a column.
 	
 	var doc = new FPDF.Doc();
