@@ -28,7 +28,7 @@
 		var Letter = FPDF.Doc.extend({
 			Page: FPDF.Page.extend({
 				defaultCss:{
-					padding:[40,5,50,5],
+					padding:[40,15,40,15],
 					color:'aa0000',
 					background:'eaeaea'
 				},
@@ -63,25 +63,42 @@
 			return FPDF('div')
 			.text(lorem)
 			.css({
-				//background:'#444444',
 				color:'#444',
 				lineHeight:1.5,
 				padding:4,
 				margin:[0,5,5,5],
 				borderRadius:1,
-				fontSize:10
+				fontSize:10,
 			})
 		};
 		
+		var Flex = function(cols){
+			var r = FPDF('flexbox')
+			.css({
+				margin:[0,5,5,5],
+				background:0
+			})
+		
+			while(cols--) {
+				r.append(box())
+			}
+
+				
+			return r;		
+		};
+
 
 		box().appendTo(doc);
 		box().appendTo(doc);
+		Flex(4).appendTo(doc);
 		box().appendTo(doc);
 		box().appendTo(doc);
 		box().appendTo(doc);
+		Flex(3).appendTo(doc);
 		box().appendTo(doc);
 		box().appendTo(doc);
 		box().appendTo(doc);
+		Flex(2).appendTo(doc);
 		box().appendTo(doc);
 		box().appendTo(doc);
 		box().appendTo(doc);

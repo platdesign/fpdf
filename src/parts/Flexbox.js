@@ -31,5 +31,6 @@ var Flexbox = Div.extend({
 	},
 	_childWidthEvenly:function(){
 		return this.innerWidth() / this.children.stack.length;
-	}
+	},
+	__doNotSplit:true
 });
