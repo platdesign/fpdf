@@ -24,6 +24,7 @@ var BaseEl = stdClass.extend({
 		this.__defineGetter__("doc", function(){
         	return this.parent.doc;
     	});
+    	return this;
 	},
 	css:function(styles){
 		for(var n in styles){
@@ -37,6 +38,7 @@ var BaseEl = stdClass.extend({
 		this.process();
 
 		this.children._process();
+		return this;
 	},
 	_processStyles:function(){
 		this.styles = inheritStyles(this.styles, this.parent.styles);
@@ -104,6 +106,7 @@ var BaseEl = stdClass.extend({
 		this.doc._setStyles(this.styles);
 
 		this.render();
+		
 		this.children._render();
 		this.afterRender();
 		
@@ -246,10 +249,6 @@ var BaseEl = stdClass.extend({
 			var child = children[n];
 			var childHeight = child.outerHeight();
 
-
-			
-
-
 			if(childHeight + y < height) {
 				wrapperAppend(child);
 				y += childHeight;
@@ -259,6 +258,7 @@ var BaseEl = stdClass.extend({
 				if(!child.__doNotSplit) {
 
 					var parts = child._splitToHeight(height, y);
+					
 					for(var p in parts) {
 
 						var part = parts[p];
@@ -272,9 +272,6 @@ var BaseEl = stdClass.extend({
 							} else {
 								y += part.outerHeight();
 							}
-							
-						
-						
 
 					}
 				} else {
@@ -294,8 +291,6 @@ var BaseEl = stdClass.extend({
 
 		for(var nr in els) {
 			var w = els[nr];
-			
-			
 
 			if(els.length > 0) {
 				if(nr == 0) {

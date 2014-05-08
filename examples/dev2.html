@@ -28,15 +28,29 @@
 		var Letter = FPDF.Doc.extend({
 			Page: FPDF.Page.extend({
 				defaultCss:{
-					padding:[5,5,50,5],
+					padding:[40,5,50,5],
 					color:'aa0000',
 					background:'eaeaea'
 				},
 				header:function(){
-					this.text('Header\nasd\nasd').css({marginTop:-20});
+					this.text('Header').css({
+						marginTop:-25,
+						color:'000',
+						textAlign:'center',
+						padding:5,
+						borderRadius:2,
+						fontSize:20
+					});
 				},
 				footer:function(){
-					this.text('Footer').css({left:5, marginTop:60});
+					this.text('Footer').css({
+						marginTop:235,
+						color:'fff',
+						background:'444',
+						textAlign:'center',
+						padding:5,
+						borderRadius:2
+					});
 				}
 			}),
 
@@ -50,15 +64,22 @@
 			.text(lorem)
 			.css({
 				//background:'#444444',
-				color:'fff',
-				padding:10,
-				borderWidth:1,
-				borderColor:'ffaa00',
-				margin: 5
+				color:'#444',
+				lineHeight:1.5,
+				padding:4,
+				margin:[0,5,5,5],
+				borderRadius:1,
+				fontSize:10
 			})
 		};
 		
 
+		box().appendTo(doc);
+		box().appendTo(doc);
+		box().appendTo(doc);
+		box().appendTo(doc);
+		box().appendTo(doc);
+		box().appendTo(doc);
 		box().appendTo(doc);
 		box().appendTo(doc);
 		box().appendTo(doc);

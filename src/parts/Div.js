@@ -16,9 +16,12 @@ var Div = BaseEl.extend({
 			}
 		}
 
-		if(this.styles.borderWidth>0 || this.doc.styles.background!==null) {
-			this.doc._doc.roundedRect(this.left(),this.top(),this.width(),this.height(),this.styles.borderRadius,this.styles.borderRadius,flag);
+		if(this.innerHeight()>0) {
+			if(this.styles.borderWidth>0 || this.doc.styles.background!==null) {
+				this.doc._doc.roundedRect(this.left(),this.top(),this.width(),this.height(),this.styles.borderRadius,this.styles.borderRadius,flag);
+			}
 		}
+		
 		
 	},
 
