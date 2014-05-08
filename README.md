@@ -2,7 +2,7 @@
 
 Create PDF-Files with Javascript in the Browser.
 
-Have a look at a little [Demo](http://jsfiddle.net/GE6QV/4/).
+Have a look at a little [Demo](http://jsfiddle.net/GE6QV/5/).
 
 ##Install
 1. Choose your favorite way to get FPDF.js
