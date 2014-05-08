@@ -40,8 +40,22 @@ gulp.task('build', function(){
 		.pipe( rename('fpdf.min.js') )
 		.pipe( uglify({
 			outSourceMap: true,
-			preserveComments: 'all'
+			//preserveComments: 'all'
 		}) )
 	.pipe( gulp.dest('./dist') );
 
+
+
+
+	// Bundle it with stdClass.js and jsPDF.js
+	gulp.src([
+		'vendor/stdClass/stdClass.js', 
+		'vendor/jspdf/dist/jspdf.debug.js',
+		'dist/fpdf.js'
+	])
+	.pipe( concat('fpdf.bundled.min.js') )
+	.pipe( uglify({
+		outSourceMap: true,
+	}) )
+	.pipe( gulp.dest('./dist') );
 });
