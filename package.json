@@ -1,6 +1,6 @@
 {
     "name": "FPDF",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Create PDF-Files in the Browser",
     "keywords": [
         "PDF",
