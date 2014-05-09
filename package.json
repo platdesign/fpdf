@@ -16,9 +16,13 @@
     "type": "git",
     "url": "github.com/platdesign/fpdf"
   },
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
+    "semver": "~2.3.0",
     "gulp": "~3.6.2",
+    "gulp-bump": "~0.1.8",
+    "gulp-git": "~0.4.2",
     "gulp-include": "~0.2.2",
     "jshint-stylish": "~0.2.0",
     "gulp-jshint": "~1.5.5",
