@@ -11,6 +11,7 @@ var
 	,	bump 		= require('gulp-bump')
 	,	git			= require('gulp-git')
 	,	semver		= require('semver')
+	,	replace		= require('gulp-replace')
 ;
 
 var getPkg = function () {
@@ -112,7 +113,7 @@ gulp.task('build', ['jshint', 'dev-main', 'dev-bundle', 'build-main', 'build-bun
 
 	return gulp.src( './' )
 		.pipe( git.add() )
-		.pipe( git.commit('Auto-commit after build-task') );
+		.pipe( git.commit(gulp.env.desc || 'Auto-commit after build-task') );
 
 });
 
@@ -136,14 +137,11 @@ gulp.task('patch', ['build'], function(cb){
 				.pipe( git.add() )
 				.pipe( git.commit('Patch to ' + version) )
 				.on('end', function(){
-					git.tag('v'+version, params.desc || 'No description');
+					git.tag('v'+version, params.desc || 'Autotag without description');
 					cb();
-				})
-			;
+				});
 
 		});
-		
-	
 
 });
 

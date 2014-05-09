@@ -55,9 +55,6 @@ Tested in the following Browsers. I'd appreciate to get test-results of older br
 - Firefox (28.0)
 - Safari (7.0.3)
 
-##Version 
-0.1.0
-
 ##License
 This project is under the MIT license. Let me know if you'll use it. =)
 
