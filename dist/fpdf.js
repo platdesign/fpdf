@@ -1,4 +1,3 @@
-window.c = function(d){console.log(d);return d;};
 /*!
  * FPDF.js
  * https://github.com/platdesign/fpdf
