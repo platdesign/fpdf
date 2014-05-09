@@ -137,6 +137,7 @@ gulp.task('patch', ['build'], function(cb){
 				.pipe( git.add() )
 				.pipe( git.commit('Patch to v' + version) )
 				.pipe( git.tag('v'+version, params.desc || 'Autotag without description'), {args: "signed"})
+				.on('end', cb)
 			;
 
 		});
