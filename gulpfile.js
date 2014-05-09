@@ -133,7 +133,7 @@ gulp.task('patch', ['build'], function(cb){
 		.pipe( gulp.dest('./') )
 		.on('end', function(){
 
-			return gulp.src( './' )
+			gulp.src( './' )
 				.pipe( git.add() )
 				.pipe( git.commit('Patch to ' + version) )
 				.on('end', function(){
