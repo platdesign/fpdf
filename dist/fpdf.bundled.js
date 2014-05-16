@@ -8741,7 +8741,7 @@ var FlateStream = (function() {
 
 })(typeof self !== "undefined" && self || typeof window !== "undefined" && window || this);
 
-window.c = function(d){console.log(d);return d;};
+window.c = function(d){console.log.apply(console, arguments);return d;};
 /*!
  * FPDF.js
  * https://github.com/platdesign/fpdf
@@ -9896,24 +9896,77 @@ FPDF.Flexrow = FPDF.Div.extend({
 
 
 /* EXPERIMENTAL */
-FPDF.Img = FPDF.Div.extend({
+FPDF.Img = FPDF.BaseEl.extend({
 	_name:'Img',
 	render:function(){
-		Div.prototype.render.apply(this);
-		this.doc._doc.addImage(this.dataURI, 'PNG', this.left(), this.top(), this.width(), this.height());
+		//FPDF.Div.prototype.render.apply(this);
+		this.doc._doc.addImage(this.dataURI, 'jpg', this.left(), this.top(), this.width(), this.height());
 	},
+	
 	text:function(){},
-	src:function(src){
+
+	setSrc:function(src){
+		var that = this;
+
 		var img = this.img = new Image();
+		img.crossOrigin = "Anonymous";
+
+		img.onload = function(){
+			
+			// Create the canvas element.
+			var canvas = document.createElement('canvas');
+			canvas.width = img.width;
+			canvas.height = img.height;
+
+			// Get '2d' context and draw the image.
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
+
+			that.dataURI = canvas.toDataURL("image/png");
+		};
+
 		img.src = src;
-		this._imgToDataUri();
+		
 		return this;
 	},
+
+	setDataUri:function(dataURI){
+		this.dataURI = dataURI;
+
+		var img = this.img = new Image();
+		img.src = dataURI;
+
+		return this;
+	},
+	
 	width:function(){
-		return this.img.width * 0.264583333;
+		var s = this.styles;
+		var context = this.__positioningContext();
+		
+		if(s.width!==undefined) {
+			return parseValue(s.width, context.width) - this._m(1, 3);
+		} else {
+			if(s.height!==undefined){
+				return this.height() / this.ratio();
+			} else {
+				return context.innerWidth();
+			}
+			
+		}
 	},
 	height:function(){
-		return this.img.height * 0.264583333;
+		var s = this.styles;
+		var context = this.__positioningContext();
+
+		if(s.height!==undefined) {
+			return parseValue(s.height, context.height) - this._m(1, 3);
+		} else {
+			return this.width() * this.ratio();
+		}
+
+	},
+	ratio:function(){
+		return this.img.height / this.img.width;
 	},
 	_imgToDataUri:function(){
 		var img = this.img;
@@ -9935,7 +9988,8 @@ FPDF.Img = FPDF.Div.extend({
 	},
 	process:function(){
 		
-	}
+	},
+	__doNotSplit:true
 });
 
 

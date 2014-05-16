@@ -1,1 +1,1 @@
-window.c = function(d){console.log(d);return d;};
+window.c = function(d){console.log.apply(console, arguments);return d;};

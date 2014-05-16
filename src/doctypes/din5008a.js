@@ -51,7 +51,7 @@
 				// Company Title
 				senderEl.prepend(
 					FPDF('text').inner(data.sender.company.name).css({fontSize:14, marginBottom:2,color:111})
-				)
+				);
 
 			}
 		}),
