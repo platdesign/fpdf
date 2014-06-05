@@ -1,6 +1,8 @@
 FPDF.BaseEl = stdClass.extend({
 	defaultCss:{},
 	_name:'BaseEl',
+
+	
 	constructor:function(parent){
 		this.styles = {};
 
@@ -26,6 +28,12 @@ FPDF.BaseEl = stdClass.extend({
     	});
     	return this;
 	},
+
+	/**
+	 * Set css-style-attributes on the element.
+	 * @param  {object} styles
+	 * @return {element}
+	 */
 	css:function(styles){
 		for(var n in styles){
 			this.styles[n] = styles[n];
@@ -125,6 +133,13 @@ FPDF.BaseEl = stdClass.extend({
 			this.parent.c.y += this.outerHeight();
 		}
 	},
+
+
+	/**
+	 * Appends an element to this one.
+	 * @param  {FPDF-element} el
+	 * @return {this}
+	 */
 	append:function(el){
 		if(el){
 			if(el.parent) {
@@ -137,6 +152,12 @@ FPDF.BaseEl = stdClass.extend({
 
 		return this;
 	},
+
+	/**
+	 * Prepends an element to this one.
+	 * @param  {FPDF-element} el
+	 * @return {this}
+	 */
 	prepend:function(el){
 		if(el){
 			if(el.parent) {
@@ -149,10 +170,22 @@ FPDF.BaseEl = stdClass.extend({
 		
 		return this;
 	},
+
+	/**
+	 * Appends itself to the given element.
+	 * @param  {FPDF-element} el
+	 * @return {this}
+	 */
 	appendTo:function(el){
 		el.append(this);
 		return this;
 	},
+
+	/**
+	 * Prepends itself to the given element
+	 * @param  {FPDF-element} el
+	 * @return {this}
+	 */
 	prependTo:function(el){
 		el.prepend(this);
 		return this;
