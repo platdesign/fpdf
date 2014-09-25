@@ -64,5 +64,3 @@ This is a project by [Christian Blaschke](http://platdesign.de).
 Get in touch: [mail@platdesign.de](mailto:mail@platdesign.de) or [@platdesign](https://twitter.com/platdesign)
 
 
-
-![](https://pjdlhbmbey.localtunnel.me/542487be5611d2571f40879f.svg?qwe=123)
